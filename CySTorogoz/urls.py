@@ -20,9 +20,11 @@ from TorogozApp import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.home, name='home'),
+    path('home', views.home_view, name='home'),
     path('signin/', views.signin, name='signin'),
-    path('signup/', views.signup, name='signup'),
+    path('signup/', views.registro_view, name='signup'),
     path('signout/', views.signout, name='signout'),
     path('profile/', views.profile, name='profile'),
+    path('', views.login_view, name='login'),
+    path('logout/', views.logout_view, name='logout'),
 ]
