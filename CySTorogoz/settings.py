@@ -78,11 +78,11 @@ WSGI_APPLICATION = 'CySTorogoz.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'dbprueba',  
-        'USER': 'root', 
-        'PASSWORD': 'Hola1234',  
-        'HOST': 'localhost',  
-        'PORT': '3307',  
+        'NAME': 'torogozdb',  
+        'USER': 'torogoz', 
+        'PASSWORD': 'Torogoz123',  
+        'HOST': '127.0.0.1',  
+        'PORT': '3306',  
     }
 }
 
