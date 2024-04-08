@@ -33,7 +33,7 @@
             </div>                        
         </div>
 
-        <form method="post" id="myForm" action="">
+        <form method="post" id="myForm" action="{% url 'insertartablagenera' %}">
             <div class="container mt-5">
                 {% csrf_token %}
                 <div class="row">
@@ -72,7 +72,7 @@
             </div>
             <input type="hidden" id="fechaActual" name="fechaActual">
             <input type="hidden" id="horaActual" name="horaActual">
-            <input type="hidden" id="Id_tabla_historial" name="Id_tabla_historial" name="Id_tabla_historial" value="1">
+            <input type="hidden" id="montoHidden" name="montoHidden">
 
             <div class="text-center mt-3">
                 <button class="btn btn-secondary">Enviar</button>

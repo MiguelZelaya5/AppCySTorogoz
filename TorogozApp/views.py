@@ -117,3 +117,48 @@ def registro_view(request):
         form = UserCreationForm()
 
     return render(request, 'signup.html', {'form': form})
+from django.shortcuts import render, redirect
+from .models import SaldoTotal, TablaBalanceGeneral
+
+def insertar_datos(request):
+    if request.method == 'POST':
+        fecha = request.POST.get('fecha')
+        tipo = request.POST.get('tipo')
+        concepto = request.POST.get('concepto')
+        tipo_monto = request.POST.get('tipoMonto')
+        monto = float(request.POST.get('montoHidden'))  
+
+        
+        saldo_total_obj = SaldoTotal.objects.first()
+        saldo_total = saldo_total_obj.saldo_totalcol
+
+        
+        if tipo_monto in ['inversion', 'ingresos a caja', 'prestamo', 'cobros']:
+            saldo_total += monto
+        elif tipo_monto in ['creditos', 'renovaciones', 'salarios', 'prestamos_trabajadores', 'salidas']:
+            saldo_total -= monto
+
+        
+        nuevo_registro = TablaBalanceGeneral(
+            fecha=fecha,
+            tipo=tipo,
+            concepto=concepto,
+            total=saldo_total,  
+        )
+
+        
+        if tipo_monto in ['inversion', 'ingresos a caja', 'prestamo', 'cobros', 'creditos', 'renovaciones', 'salarios', 'prestamos_trabajadores', 'salidas']:
+            setattr(nuevo_registro, tipo_monto, monto)
+
+        
+        nuevo_registro.save()
+
+        
+        saldo_total_obj.saldo_totalcol = saldo_total
+        saldo_total_obj.save()
+
+        return redirect('home')  
+
+    return render(request, 'home.html')  
+
+

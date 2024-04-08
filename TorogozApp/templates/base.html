@@ -205,19 +205,32 @@
                 montoInput.type = "text";
                 montoInput.className = "form-control";
                 montoInput.id = "montoInput";
-                montoInput.placeholder = "$";
+                montoInput.placeholder = "Saldo";
                 const tipoMontoContainer = tipoMontoSelect.parentElement;
-
+        
                 tipoMontoSelect.addEventListener("change", function () {
                     const selectedOption = tipoMontoSelect.options[tipoMontoSelect.selectedIndex].value;
                     if (selectedOption !== "") {
+                        // Si ya existe un input de monto, lo eliminamos
+                        const existingMontoInput = document.getElementById("montoInput");
+                        if (existingMontoInput) {
+                            tipoMontoContainer.removeChild(existingMontoInput);
+                        }
+                        // Creamos un nuevo input de monto
                         tipoMontoContainer.appendChild(montoInput);
                     } else {
+                        // Si se deselecciona un tipo de monto, eliminamos el input de monto
                         if (montoInput.parentNode === tipoMontoContainer) {
                             tipoMontoContainer.removeChild(montoInput);
                         }
                     }
                 });
+            });
+        
+            // Script adicional para obtener el monto ingresado al enviar el formulario
+            document.getElementById("myForm").addEventListener("submit", function(event) {
+                const monto = document.getElementById("montoInput").value;
+                document.getElementById("montoHidden").value = monto;
             });
         </script>
 

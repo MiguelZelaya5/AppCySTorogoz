@@ -27,4 +27,5 @@ urlpatterns = [
     path('profile/', views.profile, name='profile'),
     path('', views.login_view, name='login'),
     path('logout/', views.logout_view, name='logout'),
+    path('insertartablagenera/', views.insertar_datos, name='insertartablagenera'),
 ]
