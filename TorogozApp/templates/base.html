@@ -9,81 +9,219 @@
     
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+   
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
     <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
-    <script src="{% static 'js/main.js' %}"></script>
- 
+    <!--<link rel="stylesheet" href="/static/js/main.js" />-->
     
 
-    <title>{% block title %} Login {% endblock %}</title>
+    <title>AppCreditoTorogoz</title>
 </head>
 
+<style>
+    .titulo { 
+        padding: 10px; 
+    }
+
+    .titulo h1 {
+        font-size: 60px; 
+        color: #000000; 
+    }
+
+    .h1t {
+        font-size: 40px; 
+        color: #000000; 
+    }
+
+
+    body {
+            background: linear-gradient(to bottom, #69c1c7, #ffffff);
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif; /* Puedes cambiar la fuente si lo deseas */
+        }
+
+</style>
+
 <body>
-    <div class='dashboard'>
-        <div class="dashboard-nav">
-            <header><a href="#!" class="menu-toggle"><i class="fas fa-bars"></i></a><a href="#" class="brand-logo"><i class="fa-solid fa-hand-middle-finger"></i> <span>CySTorogoz</span></a></header>
-            <nav class="dashboard-nav-list"><a href="#" class="dashboard-nav-item"><i class="fas fa-home"></i>
-                Home </a><a
-                    href="#" class="dashboard-nav-item active"><i class="fas fa-tachometer-alt"></i> dashboard
-            </a><a
-                    href="#" class="dashboard-nav-item"><i class="fas fa-file-upload"></i> Campo </a>
-                <!--<div class='dashboard-nav-dropdown'><a href="#!" class="dashboard-nav-item dashboard-nav-dropdown-toggle"><i
-                        class="fas fa-photo-video"></i> Media </a>
-                    <div class='dashboard-nav-dropdown-menu'><a href="#"
-                                                                class="dashboard-nav-dropdown-item">All</a><a
-                            href="#" class="dashboard-nav-dropdown-item">Recent</a><a
-                            href="#" class="dashboard-nav-dropdown-item">Images</a><a
-                            href="#" class="dashboard-nav-dropdown-item">Video</a></div>
-                </div>
-                <div class='dashboard-nav-dropdown'><a href="#!" class="dashboard-nav-item dashboard-nav-dropdown-toggle"><i
-                        class="fas fa-users"></i> Users </a>
-                    <div class='dashboard-nav-dropdown-menu'><a href="#"
-                                                                class="dashboard-nav-dropdown-item">All</a><a
-                            href="#" class="dashboard-nav-dropdown-item">Subscribed</a><a
-                            href="#"
-                            class="dashboard-nav-dropdown-item">Non-subscribed</a><a
-                            href="#" class="dashboard-nav-dropdown-item">Banned</a><a
-                            href="#" class="dashboard-nav-dropdown-item">New</a></div>
-                </div>
-                <div class='dashboard-nav-dropdown'><a href="#!" class="dashboard-nav-item dashboard-nav-dropdown-toggle"><i
-                        class="fas fa-money-check-alt"></i> Payments </a>
-                    <div class='dashboard-nav-dropdown-menu'><a href="#"
-                                                                class="dashboard-nav-dropdown-item">All</a><a
-                            href="#" class="dashboard-nav-dropdown-item">Recent</a><a
-                            href="#" class="dashboard-nav-dropdown-item"> Projections</a>
-                    </div>
-                </div>!-->
-                <a href="#" class="dashboard-nav-item"><i class="fas fa-cogs"></i> Ajuste </a><a
-                        href="#" class="dashboard-nav-item"><i class="fas fa-user"></i> Perfil </a>
-              <div class="nav-item-divider"></div>
-              <a
-                        href="{% url 'signout' %}" class="dashboard-nav-item"><i class="fas fa-sign-out-alt"></i> Cerrar Sesion </a>
-            </nav>
-        </div>
-        <div class='dashboard-app'>
-            <header class='dashboard-toolbar'><a href="#!" class="menu-toggle"><i class="fas fa-bars"></i></a></header>
-            <div class='dashboard-content'>
-                <div class='container'>
-                    <div class='card'>
-                        <div class='card-header'>
-                            <h1>Welcome back Jim</h1>
-                        </div>
-                        <div class='card-body'>
-                            <p>Your account type is: Administrator</p>
-                        </div>
-                    </div>
-                </div>
+    <div class="d-flex" id="wrapper">
+        <!-- Sidebar -->
+        <div style="background-color: #77927a;" id="sidebar-wrapper">
+            <div class="sidebar-heading text-center py-4 primary-text fs-2 fw-bold text-uppercase border-bottom text-white">
+                
+                <h3 class="">
+                    <img src="{% static 'img/logoTorogoz.png' %}" alt="Logo" class="img-fluid" style="max-width: 200px;">
+                </h3>
+
             </div>
+                       
+            <div class="list-group list-group-flush my-3">
+                <div class="">
+                    <a style="text-decoration: none;">
+                        <button class="btn btn-secondary  list-group-item list-group-item-action bg-transparent" type="button"  aria-expanded="false">
+                            <i class="fas fa-tachometer-alt me-2"></i>Entrada
+                        </button>
+                    </a>
+                  </div>
+                <!-- Dropdown 2 -->
+                <div class="">
+                    <a style="text-decoration: none">
+                        <button class="btn btn-secondary  list-group-item list-group-item-action bg-transparent" type="button"  aria-expanded="false">
+                            <i class="fas fa-project-diagram me-2"></i>Salida
+                        </button>
+                    </a>
+                  </div> 
+
+                <!-- Dropdown 3 -->
+                <div class="">
+                    <a style="text-decoration: none">
+                        <button class="btn btn-secondary  list-group-item list-group-item-action bg-transparent" type="button"  aria-expanded="false">
+                            <i class="fas fa-chart-line me-2"></i>Historial
+                        </button>
+                    </a>
+                </div>
+                <div class="">
+                    <a style="text-decoration: none">
+                        <button class="btn btn-secondary  list-group-item list-group-item-action bg-transparent" type="button"  aria-expanded="false">
+                            <i class="fas fa-search me-2"></i>Busqueda de registros
+                        </button>
+                    </a>
+                </div>
+
+                <a class="list-group-item list-group-item-action bg-transparent ">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-power-off me-2"></i>
+                        <span>Cerrar Sesión</span>
+                    </div>
+                </a>                
+            </div>
+        </div>
+
+        <div id="page-content-wrapper">
+            <nav class="navbar navbar-expand-lg navbar-light bg-transparent py-4 px-4">
+                <div class="d-flex align-items-center">
+                    <i class="fas fa-align-left primary-text fs-4 me-3" id="menu-toggle"></i>
+                </div>
+            
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle second-text fw-bold" href="#" id="navbarDropdown"
+                                role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-user me-2"></i>Usuario
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item"  target="_blank">Admin</a></li>
+                                <li><a class="dropdown-item">Cerrar Sesion</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            
+            <div class="titulo text-center">
+                <h1 class="p-4">Creditos & Servicios Torogoz</h1>
+            </div>
+
+            <div class="text-center">
+                <h1 class="h1t p-3">Balance General</h1>
+            </div>
+            
+            {%block contenido %} {% endblock %}
+
+            
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"></script>       
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"></script>
+
+            <script>
+                function updateClock() {
+                    const now = moment();
+                    const formattedTime = now.format('HH:mm:ss');
+                    document.getElementById('clock').textContent = formattedTime;
+                }
+            
+                setInterval(updateClock, 1000);
+                updateClock();
+            </script>
+            <script>
+                function capitalizeWords(string) {
+                    return string.replace(/\b\w/g, function (match) {
+                        return match.toUpperCase();
+                    });
+                }
+            
+                function updateDate() {
+                    const now = new Date();
+                    const options = { month: 'long',weekday : 'long', day: 'numeric' };
+                    const formattedDate = new Intl.DateTimeFormat('es-ES', options).format(now);
+                    const capitalizedDate = capitalizeWords(formattedDate);
+                    document.getElementById('date').textContent = capitalizedDate;
+                }
+            
+                updateDate();
+            </script>
+            <script>
+                var el = document.getElementById("wrapper");
+                var toggleButton = document.getElementById("menu-toggle");
+        
+                toggleButton.onclick = function () {
+                    el.classList.toggle("toggled");
+                };
+            </script>
+        <script>
+            $(document).ready(function(){
+                $("#nombre1").datepicker({
+                    dateFormat: "yy-mm-dd", 
+                    showOn: "button", 
+                    buttonImage: "https://jqueryui.com/resources/demos/datepicker/images/calendar.gif", 
+                    buttonImageOnly: true, 
+                    buttonText: "Seleccionar fecha", 
+                    beforeShow: function(input, inst) {
+                        $.datepicker.setDefaults($.datepicker.regional['es']); 
+                    },
+                    onSelect: function(dateText, inst) {
+                        $(this).val(dateText); 
+                    }
+                });
+            });
+        </script>
+        <!-- Agrega esto dentro de tu formulario, antes de cerrar el tag </form> -->
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                const tipoMontoSelect = document.getElementById("tipoMonto");
+                const montoInput = document.createElement("input");
+                montoInput.type = "text";
+                montoInput.className = "form-control";
+                montoInput.id = "montoInput";
+                montoInput.placeholder = "$";
+                const tipoMontoContainer = tipoMontoSelect.parentElement;
+
+                tipoMontoSelect.addEventListener("change", function () {
+                    const selectedOption = tipoMontoSelect.options[tipoMontoSelect.selectedIndex].value;
+                    if (selectedOption !== "") {
+                        tipoMontoContainer.appendChild(montoInput);
+                    } else {
+                        if (montoInput.parentNode === tipoMontoContainer) {
+                            tipoMontoContainer.removeChild(montoInput);
+                        }
+                    }
+                });
+            });
+        </script>
+
         </div>
     </div>
     
-    <h1>Aqui va la informacion; hay lo quitan</h1>
-
-    {% block content %}
-    {% endblock %}
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"></script>  
-
-
 </body>
-</html>

@@ -1,12 +1,106 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
-{% block title %}Login{% endblock %}
-{% load static %}
-{% block content %}
-    <h2>welcome!</h2>
-    {% if user.is_authenticated %}
-        Hola {{ user.username }}!
-        <a href="/signout" class="btn btn-danger">Logout</a>
+{% block contenido %}
+
+<style>
+    .center-content {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .parqueos-container {
+        text-align: center;
+    }
+</style>
+</head>
+<body>
+<div class="container-fluid px-4">
+    <div class="container-fluid">
+        <div class="row g-0 text-center m-4 pb-4">
+            <div class="center-content text-center mt-5">
+                <div class="parqueos-container col-md-7">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label><h2>Fecha:</h2></label>
+                            <div id="date" style="font-size: 30px;"></div>
+                        </div>
+                        <div class="col-md-6">
+                            <label><h2>Hora:</h2></label>
+                            <div id="clock" style="font-size: 30px;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>                        
+        </div>
+
+        <form method="post" id="myForm" action="">
+            <div class="container mt-5">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-md-4">
+                        <label for="fecha">Fecha:</label>
+                        <input type="text" class="form-control" id="nombre1" placeholder="" name="fecha">
+                        <div id="fechaError" class="text-danger"></div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label for="tipo">Tipo:</label>
+                        <select class="form-select" id="tipo" name="tipo">
+                            <option value="Carro" data-id="1">1</option>
+                            <option value="Moto" data-id="2">2</option>
+                            <option value="Microbus" data-id="3">3</option>
+                            <!-- Agrega más opciones según sea necesario -->
+                        </select>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label for="concepto">Concepto:</label>
+                        <input type="text" class="form-control" id="concepto" name="concepto">
+                    </div>
+                    
+                    <div class="col-md-4">
+                        <label for="tipoMonto">Selecciona el tipo de monto:</label>
+                        <select class="form-select" id="tipoMonto" name="tipoMonto">
+                            <option value="inversion">Inversion</option>
+                            <option value="ingresos a caja">Ingresos a caja</option>
+                            <option value="prestamo">Prestamo</option>
+                            <option value="cobros">Cobros</option>
+                            <option value="creditos">Creditos</option>
+                            <option value="renovaciones">Renovaciones</option>
+                            <option value="salarios">Salarios</option>
+                            <option value="prestamo">Prestamos Trabajadores</option>
+                            <option value="salidas">Salidas</option>
+                        </select>
+                    </div>
+                    
+                </div>
+            </div>
+            <input type="hidden" id="fechaActual" name="fechaActual">
+            <input type="hidden" id="horaActual" name="horaActual">
+            <input type="hidden" id="Id_tabla_historial" name="Id_tabla_historial" name="Id_tabla_historial" value="1">
+
+            <div class="text-center mt-3">
+                <button class="btn btn-secondary">Enviar</button>
+            </div>
+        </form>
+    </div>
+</div>
+    </div>
+    <!-- /#page-content-wrapper -->
+    </div>
+    <script>
+        document.getElementById("myForm").addEventListener("submit", function(event) {
+            var matricula = document.getElementById("nombre1").value;
+            var matriculaError = document.getElementById("matriculaError");
+
+            if (matricula.trim() === "") {
+                matriculaError.textContent = "Por favor, ingrese carnet o dui.";
+                event.preventDefault(); // Evitar que el formulario se envíe si hay errores
+            } else {
+                matriculaError.textContent = ""; // Limpiar el mensaje de error si la matrícula es válida
+            }
+        });
+    </script>
+   
+    {% endblock %}
     
-    {% endif %}
-{% endblock %}
