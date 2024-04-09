@@ -29,10 +29,9 @@ class TablaBalanceGeneral(models.Model):
 class TablaCreditos(models.Model):
     id_creditos = models.AutoField(primary_key=True)
     fecha = models.DateField(null=True)
-    id_tabla_general = models.IntegerField(null=True)
+    id_tabla_general = models.ForeignKey(TablaBalanceGeneral, on_delete=models.CASCADE, db_column='id_tabla_general')
     tipo_credito = models.CharField(max_length=45, null=True)
     cantidad = models.FloatField(null=True)
-    tabla_balance_general = models.ForeignKey(TablaBalanceGeneral, on_delete=models.CASCADE, null=True)
 
     def str(self):
         return str(self.id_creditos)
@@ -40,10 +39,9 @@ class TablaCreditos(models.Model):
 class TablaRenovaciones(models.Model):
     id_renovaciones = models.AutoField(primary_key=True)
     fecha = models.DateField(null=True)
-    id_tabla_general = models.IntegerField(null=True)
+    id_tabla_general = models.ForeignKey(TablaBalanceGeneral, on_delete=models.CASCADE, db_column='id_tabla_general')
     tipo_renovacion = models.CharField(max_length=45, null=True)
     cantidad = models.IntegerField(null=True)
-    tabla_balance_general = models.ForeignKey(TablaBalanceGeneral, on_delete=models.CASCADE, null=True)
 
     def str(self):
         return str(self.id_renovaciones)

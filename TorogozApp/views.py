@@ -3,6 +3,9 @@ from django.contrib.auth.forms import UserCreationForm , AuthenticationForm
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import logout
 from django.contrib.auth.password_validation import validate_password
+from django.db import connection
+from django.http import HttpResponseServerError
+from django.db import transaction
 
 # Create your views here.
 def signup(request):
@@ -118,47 +121,79 @@ def registro_view(request):
 
     return render(request, 'signup.html', {'form': form})
 from django.shortcuts import render, redirect
-from .models import SaldoTotal, TablaBalanceGeneral
+from .models import SaldoTotal, TablaBalanceGeneral,TablaCreditos,TablaRenovaciones
 
 def insertar_datos(request):
     if request.method == 'POST':
         fecha = request.POST.get('fecha')
-        tipo = request.POST.get('tipo')
-        concepto = request.POST.get('concepto')
+        tipo = request.POST.get('tipo').upper()
+        concepto = request.POST.get('concepto').upper()
         tipo_monto = request.POST.get('tipoMonto')
         monto = float(request.POST.get('montoHidden'))  
 
-        
         saldo_total_obj = SaldoTotal.objects.first()
         saldo_total = saldo_total_obj.saldo_totalcol
 
-        
         if tipo_monto in ['inversion', 'ingresos a caja', 'prestamo', 'cobros']:
             saldo_total += monto
         elif tipo_monto in ['creditos', 'renovaciones', 'salarios', 'prestamos_trabajadores', 'salidas']:
             saldo_total -= monto
 
-        
         nuevo_registro = TablaBalanceGeneral(
             fecha=fecha,
             tipo=tipo,
             concepto=concepto,
             total=saldo_total,  
         )
-
         
-        if tipo_monto in ['inversion', 'ingresos a caja', 'prestamo', 'cobros', 'creditos', 'renovaciones', 'salarios', 'prestamos_trabajadores', 'salidas']:
+
+        if tipo_monto in ['inversion', 'ingresos a caja', 'prestamo', 'cobros', 'creditos', 'renovaciones', 'salarios', 'prestamos', 'salidas']:
             setattr(nuevo_registro, tipo_monto, monto)
 
-        
-        nuevo_registro.save()
+        try:
+            with transaction.atomic():
+                nuevo_registro.save()
+                saldo_total_obj.saldo_totalcol = saldo_total
+                saldo_total_obj.save()
+                if tipo_monto == 'creditos':
 
-        
-        saldo_total_obj.saldo_totalcol = saldo_total
-        saldo_total_obj.save()
+                    if tipo in ['CREDITO 20 DIAS', 'CREDITO 30 DIAS', 'CREDITO 60 DIAS']:
+                        #id_tabla_general1=obtenerultimoIDtablabalance()
+                        #ultimo_id_creado = TablaBalanceGeneral.objects.latest('id_registro').id_registro
+                        ultimo_registro_balance = TablaBalanceGeneral.objects.latest('id_registro')
+                        nuevocredito = TablaCreditos(
+                        fecha=fecha,
+                        id_tabla_general=ultimo_registro_balance,
+                        tipo_credito=tipo,
+                        cantidad=monto
+                        )
+                        nuevocredito.save()
+                elif tipo_monto == 'renovaciones':
+                    if tipo in ['RENOVACION 20 DIAS', 'RENOVACION 30 DIAS', 'RENOVACION 60 DIAS']:
+                        #id_tabla_general1=obtenerultimoIDtablabalance()
+                        #ultimo_id_creado = TablaBalanceGeneral.objects.latest('id_registro').id_registro
+                        ultimo_registro_balance = TablaBalanceGeneral.objects.latest('id_registro')
+                        nuevorenovacion = TablaRenovaciones(
+                        fecha=fecha,
+                        id_tabla_general=ultimo_registro_balance,
+                        tipo_renovacion=tipo,
+                        cantidad=monto
+                        )
+                        nuevorenovacion.save()
 
-        return redirect('home')  
+            return redirect('home')  
+        except Exception as e:
+            
+            return HttpResponseServerError("Error al guardar el registro: {}".format(str(e)))
 
-    return render(request, 'home.html')  
+    return render(request, 'home.html')
+  
 
-
+def obtenerultimoIDtablabalance():
+    with connection.cursor() as cursor:
+        cursor.execute("select max(id_registro) from torogozapp_tablabalancegeneral limit 1;")           
+    idmaximo = cursor.fetchone()
+    if idmaximo[0] is not None:
+        return idmaximo[0]
+    else:
+        return 0
