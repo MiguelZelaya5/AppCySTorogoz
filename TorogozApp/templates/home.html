@@ -136,7 +136,7 @@
                                     <td class="text-center" style="font-size: 20px;">{{ item.salarios|default_if_none:'-' }}</td>
                                     <td class="text-center" style="font-size: 20px;">{{ item.prestamos_trabajadores|default_if_none:'-' }}</td>
                                     <td class="text-center" style="font-size: 20px;">{{ item.salidas|default_if_none:'-' }}</td>
-                                    <td class="text-center" style="font-size: 20px;">{{ item.total|default_if_none:'-' }}</td>
+                                    <td class="text-center" style="font-size: 20px;">${{ item.total|default_if_none:'-' }}</td>
                                     <!--<td style="font-size: 20px;" class="text-center"><a href="actualizarregistros/{{c.idregistrovehiculos}}" class="btn btn-primary btn-lg">Salida</a></td>
                                     <td style="font-size: 20px;" class="text-center"><a href="eliminarregistros/{{c.idregistrovehiculos}}" class="btn btn-danger btn-lg">Eliminar</a></td>-->
                                     
