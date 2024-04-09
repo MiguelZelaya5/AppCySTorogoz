@@ -6,6 +6,9 @@ from django.contrib.auth.password_validation import validate_password
 from django.db import connection
 from django.http import HttpResponseServerError
 from django.db import transaction
+from .models import TablaBalanceGeneral
+
+
 
 # Create your views here.
 def signup(request):
@@ -88,7 +91,10 @@ def logout_view(request):
     return redirect('login')  # Redirige de nuevo a la página de inicio de sesión
 
 def home_view(request):
-    return render(request, 'home.html')
+    registros_data, mes_actual, año_actual = homeTableM(request)
+
+    # Renderiza la plantilla 'home.html' con los datos obtenidos de homeTableM
+    return render(request, 'home.html', {'registros': registros_data, 'mes': mes_actual, 'año': año_actual})
 
 def registro_view(request):
     if request.user.is_authenticated:
@@ -197,3 +203,53 @@ def obtenerultimoIDtablabalance():
         return idmaximo[0]
     else:
         return 0
+    
+
+def homeTableM(request):
+    with connection.cursor() as cursor:
+        cursor.execute("SELECT MONTH(CURDATE()) AS mes, YEAR(CURDATE()) AS año")
+        mes_año = cursor.fetchone()
+        if mes_año:
+            mes_actual = mes_año[0]
+            año_actual = mes_año[1]
+
+    # Obtener registros de TablaBalanceGeneral para el mes y año actual
+    registros = TablaBalanceGeneral.objects.filter(fecha__month=mes_actual, fecha__year=año_actual)
+    registros_data = []
+
+    for registro in registros:
+        
+        registros_data.append({
+            'id_registro': registro.id_registro,
+            'fecha': registro.fecha,
+            'tipo': registro.tipo,
+            'concepto': registro.concepto,
+            'inversion': registro.inversion,
+            'ingresos_a_caja': registro.ingresos_a_caja,
+            'prestamo': registro.prestamo,
+            'cobros': registro.cobros,
+            'creditos': registro.creditos,
+            'renovaciones': registro.renovaciones,
+            'salarios': registro.salarios,
+            'prestamos_trabajadores': registro.prestamos_trabajadores,
+            'salidas': registro.salidas,
+            'total': registro.total,
+           
+        })
+
+    return registros_data, mes_actual, año_actual
+
+def mostrarXMesyAño(request):
+    # Inicializar mes y año
+    mes = None
+    año = None
+
+    # Obtener mes y año directamente de MySQL
+    with connection.cursor() as cursor:
+        cursor.execute("SELECT MONTH(CURDATE()) AS mes, YEAR(CURDATE()) AS año")
+        mes_año = cursor.fetchone()
+        if mes_año:
+            mes = mes_año[0]
+            año = mes_año[1]
+
+    return render(request, 'home.html', {'mes': mes, 'año': año})

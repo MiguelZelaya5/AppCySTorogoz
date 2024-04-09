@@ -28,4 +28,5 @@ urlpatterns = [
     path('', views.login_view, name='login'),
     path('logout/', views.logout_view, name='logout'),
     path('insertartablagenera/', views.insertar_datos, name='insertartablagenera'),
+    path('homeTableM/', views.homeTableM, name='homeTableM')
 ]
