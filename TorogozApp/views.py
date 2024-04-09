@@ -253,3 +253,4 @@ def mostrarXMesyAño(request):
             año = mes_año[1]
 
     return render(request, 'home.html', {'mes': mes, 'año': año})
+
