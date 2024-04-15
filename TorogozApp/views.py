@@ -330,7 +330,7 @@ def sumaCreditoRenovacion(request):
         'creditos_30_dias': creditos_30_dias['total'] if creditos_30_dias['total'] else 0,
         'creditos_60_dias': creditos_60_dias['total'] if creditos_60_dias['total'] else 0,
         'renovacion_20_dias': renovacion_20_dias['total'] if renovacion_20_dias['total'] else 0,
-        'renovacion_30_dias': renovacion_20_dias['total'] if renovacion_30_dias['total'] else 0,
+        'renovacion_30_dias': renovacion_30_dias['total'] if renovacion_30_dias['total'] else 0,
         'renovacion_60_dias': renovacion_60_dias['total'] if renovacion_60_dias['total'] else 0,
         'total_creditos': total_creditos,
         'total_renovacion': total_renovacion,
