@@ -37,36 +37,46 @@
             <div class="container mt-5">
                 {% csrf_token %}
                 <div class="row">
-                    <div class="col-md-4">
-                        <label for="fecha">Fecha:</label>
-                        <input type="date" id="start" name="trip-start" value="2024-04-08" min="2018-01-01" max="2050-12-31" />
-                        <input type="text" class="form-control" id="nombre1" placeholder="" name="fecha">
-                        <div id="fechaError" class="text-danger"></div>
+                    <div class="col-md-3">
+                        <div>
+                            <label for="fecha">Fecha:</label>
+                            <input type="date" id="start" name="trip-start" value="2024-04-08" min="2018-01-01" max="2050-12-31" />
+                        </div>
+                        <div class="pt-2">
+                            <input type="text" class="form-control" id="nombre1" placeholder="" name="fecha">
+                            <div id="fechaError" class="text-danger"></div>
+                        </div>
                     </div>
 
-                    <div class="col-md-4">
-                        <label for="tipo">Tipo:</label>
-                        <input type="text" class="form-control" id="tipo" name="tipo">
+                    <div class="col-md-3">
+                        <div><label for="tipo">Tipo:</label></div>
+                        <div class="pt-2">
+                            <input type="text" class="form-control" id="tipo" name="tipo">
+                        </div>
                     </div>
 
-                    <div class="col-md-4">
-                        <label for="concepto">Concepto:</label>
-                        <input type="text" class="form-control" id="concepto" name="concepto">
+                    <div class="col-md-3">
+                        <div><label for="concepto">Concepto:</label></div>
+                        <div class="pt-2">
+                            <input type="text" class="form-control" id="concepto" name="concepto">
+                        </div>
                     </div>
 
-                    <div class="col-md-4">
-                        <label for="tipoMonto">Selecciona el tipo de monto:</label>
-                        <select class="form-select" id="tipoMonto" name="tipoMonto">
-                            <option value="inversion">Inversion</option>
-                            <option value="ingresos a caja">Ingresos a caja</option>
-                            <option value="prestamo">Prestamo</option>
-                            <option value="cobros">Cobros</option>
-                            <option value="creditos">Creditos</option>
-                            <option value="renovaciones">Renovaciones</option>
-                            <option value="salarios">Salarios</option>
-                            <option value="prestamo">Prestamos Trabajadores</option>
-                            <option value="salidas">Salidas</option>
-                        </select>
+                    <div class="col-md-3">
+                        <div><label for="tipoMonto">Selecciona el tipo de monto:</label></div>
+                        <div class="pt-2">
+                            <select class="form-select" id="tipoMonto" name="tipoMonto">
+                                <option value="inversion">Inversion</option>
+                                <option value="ingresos a caja">Ingresos a caja</option>
+                                <option value="prestamo">Prestamo</option>
+                                <option value="cobros">Cobros</option>
+                                <option value="creditos">Creditos</option>
+                                <option value="renovaciones">Renovaciones</option>
+                                <option value="salarios">Salarios</option>
+                                <option value="prestamo">Prestamos Trabajadores</option>
+                                <option value="salidas">Salidas</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
             </div>
