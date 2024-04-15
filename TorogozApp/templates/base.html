@@ -180,23 +180,6 @@
                     el.classList.toggle("toggled");
                 };
             </script>
-        <script>
-            $(document).ready(function(){
-                $("#nombre1").datepicker({
-                    dateFormat: "yy-mm-dd", 
-                    showOn: "button", 
-                    buttonImage: "https://jqueryui.com/resources/demos/datepicker/images/calendar.gif", 
-                    buttonImageOnly: true, 
-                    buttonText: "Seleccionar fecha", 
-                    beforeShow: function(input, inst) {
-                        $.datepicker.setDefaults($.datepicker.regional['es']); 
-                    },
-                    onSelect: function(dateText, inst) {
-                        $(this).val(dateText); 
-                    }
-                });
-            });
-        </script>
         <!-- Agrega esto dentro de tu formulario, antes de cerrar el tag </form> -->
         <script>
             document.addEventListener("DOMContentLoaded", function () {
@@ -231,6 +214,21 @@
             document.getElementById("myForm").addEventListener("submit", function(event) {
                 const monto = document.getElementById("montoInput").value;
                 document.getElementById("montoHidden").value = monto;
+            });
+        </script>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                const fechaInput = document.getElementById("start");
+                const nombreInput = document.getElementById("nombre1");
+        
+                fechaInput.addEventListener("change", function () {
+                    const selectedDate = fechaInput.value;
+                    if (selectedDate !== "") {
+                        nombreInput.value = selectedDate;
+                    } else {
+                        nombreInput.value = ""; // Limpiar el valor si no se selecciona ninguna fecha
+                    }
+                });
             });
         </script>
 
