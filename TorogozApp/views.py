@@ -1,3 +1,4 @@
+from django.db.models import Sum
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm , AuthenticationForm
 from django.contrib.auth import authenticate, login
@@ -6,7 +7,7 @@ from django.contrib.auth.password_validation import validate_password
 from django.db import connection
 from django.http import HttpResponseServerError
 from django.db import transaction
-from .models import TablaBalanceGeneral
+from .models import TablaBalanceGeneral,TablaCreditos,TablaRenovaciones
 
 
 
@@ -92,9 +93,11 @@ def logout_view(request):
 
 def home_view(request):
     registros_data, mes_actual, año_actual = homeTableM(request)
+    registros_data2, mes_actual, año_actual = homeTCreReno(request)
+    registros_data3 = sumaCreditoRenovacion(request)
 
     # Renderiza la plantilla 'home.html' con los datos obtenidos de homeTableM
-    return render(request, 'home.html', {'registros': registros_data, 'mes': mes_actual, 'año': año_actual})
+    return render(request, 'home.html', {'registros': registros_data, 'registros2': registros_data2, 'registros3': registros_data3,'mes': mes_actual, 'año': año_actual})
 
 def registro_view(request):
     if request.user.is_authenticated:
@@ -214,7 +217,7 @@ def homeTableM(request):
             año_actual = mes_año[1]
 
     # Obtener registros de TablaBalanceGeneral para el mes y año actual
-    registros = TablaBalanceGeneral.objects.filter(fecha__month=mes_actual, fecha__year=año_actual)
+    registros = TablaBalanceGeneral.objects.filter(fecha__month=mes_actual, fecha__year=año_actual).order_by('fecha')
     registros_data = []
 
     for registro in registros:
@@ -254,3 +257,82 @@ def mostrarXMesyAño(request):
 
     return render(request, 'home.html', {'mes': mes, 'año': año})
 
+
+def homeTCreReno(request):
+    with connection.cursor() as cursor:
+        cursor.execute("SELECT MONTH(CURDATE()) AS mes, YEAR(CURDATE()) AS año")
+        mes_año = cursor.fetchone()
+        if mes_año:
+            mes_actual = mes_año[0]
+            año_actual = mes_año[1]
+
+    # Obtener registros de TablaCreditos para el mes y año actual
+    registros_creditos = TablaCreditos.objects.filter(fecha__month=mes_actual, fecha__year=año_actual).order_by('fecha')#'-fecha'
+    registros_renovaciones = TablaRenovaciones.objects.filter(fecha__month=mes_actual, fecha__year=año_actual).order_by('fecha')#'-fecha'
+
+    registros_data2 = []
+
+    for item in registros_creditos:
+        registros_data2.append({
+            'concepto': item.id_tabla_general.concepto,
+            'fecha': item.fecha,
+            'tipo': item.tipo_credito,
+            'cantidad': item.cantidad,
+        })
+
+    for item in registros_renovaciones:
+        registros_data2.append({
+            'concepto': item.id_tabla_general.concepto,
+            'fecha': item.fecha,
+            'tipo': item.tipo_renovacion,
+            'cantidad': item.cantidad,
+        })
+
+
+
+    return registros_data2, mes_actual, año_actual
+
+def sumaCreditoRenovacion(request):
+    with connection.cursor() as cursor:
+        cursor.execute("SELECT MONTH(CURDATE()) AS mes, YEAR(CURDATE()) AS año")
+        mes_año = cursor.fetchone()
+        if mes_año:
+            mes_actual = mes_año[0]
+            año_actual = mes_año[1]
+
+    # Obtener registros de TablaCreditos para el mes y año actual
+    registros_creditos = TablaCreditos.objects.filter(fecha__month=mes_actual, fecha__year=año_actual)
+    registros_renovaciones = TablaRenovaciones.objects.filter(fecha__month=mes_actual, fecha__year=año_actual)
+
+    # Realiza las consultas para obtener las sumas de créditos por tipo y también las renovaciones
+    creditos_20_dias = registros_creditos.filter(tipo_credito="credito 20 dias").aggregate(total=Sum('cantidad'))
+    creditos_30_dias = registros_creditos.filter(tipo_credito="credito 30 dias").aggregate(total=Sum('cantidad'))
+    creditos_60_dias = registros_creditos.filter(tipo_credito="credito 60 dias").aggregate(total=Sum('cantidad'))
+
+    renovacion_20_dias = registros_renovaciones.filter(tipo_renovacion="renovacion 20 dias").aggregate(total=Sum('cantidad'))
+    renovacion_30_dias = registros_renovaciones.filter(tipo_renovacion="renovacion 30 dias").aggregate(total=Sum('cantidad'))
+    renovacion_60_dias = registros_renovaciones.filter(tipo_renovacion="renovacion 60 dias").aggregate(total=Sum('cantidad'))
+
+    # Calcula el total de créditos
+    total_creditos = (creditos_20_dias['total'] if creditos_20_dias['total'] else 0) + \
+                     (creditos_30_dias['total'] if creditos_30_dias['total'] else 0) + \
+                     (creditos_60_dias['total'] if creditos_60_dias['total'] else 0)
+
+    # En este punto puedes hacer consultas adicionales para obtener las renovaciones si es necesario
+    total_renovacion = (renovacion_20_dias['total'] if renovacion_20_dias['total'] else 0) + \
+                     (renovacion_30_dias['total'] if renovacion_30_dias['total'] else 0) + \
+                     (renovacion_60_dias['total'] if renovacion_60_dias['total'] else 0)
+  
+
+    # Retorna los resultados como un diccionario
+    return {
+        'creditos_20_dias': creditos_20_dias['total'] if creditos_20_dias['total'] else 0,
+        'creditos_30_dias': creditos_30_dias['total'] if creditos_30_dias['total'] else 0,
+        'creditos_60_dias': creditos_60_dias['total'] if creditos_60_dias['total'] else 0,
+        'renovacion_20_dias': renovacion_20_dias['total'] if renovacion_20_dias['total'] else 0,
+        'renovacion_30_dias': renovacion_20_dias['total'] if renovacion_30_dias['total'] else 0,
+        'renovacion_60_dias': renovacion_60_dias['total'] if renovacion_60_dias['total'] else 0,
+        'total_creditos': total_creditos,
+        'total_renovacion': total_renovacion,
+        
+    }

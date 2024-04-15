@@ -94,7 +94,7 @@
                 </style>
                 
                 <div class="text-right d-flex align-items-center">
-                    <!--<input type="text" id="campo_busqueda" placeholder="CARNET/DUI:">
+                    <!--<input type="text" id="campo_busqueda" placeholder="CONCEPTO:">
                     <button class="btn btn-primary" id="boton_buscar">Buscar</button>
                     <button class="btn btn-primary" id="mostrar_todos" style="display: none;">Mostrar Todos</button>-->
                 </div>
@@ -108,25 +108,25 @@
                             <thead style="background-color: rgb(202, 199, 194); color: #121213;">
                                 
                                 <th style="width: 200px;">FECHA</th>
-                                <th>TIPO</th>
-                                <th>CONCEPTO</th>
-                                <th>INVERSIÓN</th>
-                                <th>INGRESOS A CAJA</th>
-                                <th>PRESTAMO</th>
-                                <th>COBROS</th>
-                                <th>CRÉDITOS</th>
-                                <th>RENOVACIONES</th>
-                                <th>SALARIOS</th>
-                                <th>PRESTAMOS TRABAJADORES</th>
-                                <th>SALIDAS</th>
-                                <th>TOTAL</th>
+                                <th class="text-center">TIPO</th>
+                                <th class="text-center">CONCEPTO</th>
+                                <th class="text-center">INVERSIÓN</th>
+                                <th class="text-center">INGRESOS A CAJA</th>
+                                <th class="text-center">PRESTAMO</th>
+                                <th class="text-center">COBROS</th>
+                                <th class="text-center">CRÉDITOS</th>
+                                <th class="text-center">RENOVACIONES</th>
+                                <th class="text-center">SALARIOS</th>
+                                <th class="text-center">PRESTAMOS TRABAJADORES</th>
+                                <th class="text-center">SALIDAS</th>
+                                <th class="text-center">TOTAL</th>
                                 <!--<th colspan="2" class="text-center">OPCIONES</th>-->
                             </thead>
                             <tbody>
                                 {% for item in registros %}
                                 <tr>
                                     
-                                    <td class="text-center" style="font-size: 20px; width: 200px;" >{{ item.fecha|default_if_none:'-' }}</td>
+                                    <td class="text-center" style="font-size: 18px; width: 200px;" >{{ item.fecha|default_if_none:'-' }}</td>
                                     <td class="text-center" style="font-size: 20px;">{{ item.tipo|default_if_none:'-' }}</td>
                                     <td class="text-center" style="font-size: 20px;">{{ item.concepto|default_if_none:'-' }}</td>
                                     <td class="text-center" style="font-size: 20px;">{{ item.inversion|default_if_none:'-' }}</td>
@@ -154,6 +154,91 @@
     </div>
 </div>
 
+<div class="container-fluid">
+    <div class="row">
+        <!--<h3 class="pb-2 bg-white mb-4"><CENTER>Salidas Vehiculares</CENTER></h3>-->
+        <div class="container">
+            <div class="d-flex justify-content-end pb-3">
+                <style>
+
+                    #campo_busqueda {
+                        margin-right: 10px; 
+                    }
+                </style>
+                
+                <div class="text-right d-flex align-items-center">
+                    <!--<input type="text" id="campo_busqueda" placeholder="CARNET/DUI:">
+                    <button class="btn btn-primary" id="boton_buscar">Buscar</button>
+                    <button class="btn btn-primary" id="mostrar_todos" style="display: none;">Mostrar Todos</button>-->
+                </div>
+            </div>                
+            <div class="row">
+                <div class="col">
+                    <div class="border p-3">
+                        <table class="table table-hover table-striped table-bordered" id="tabla_creditos_renovaciones">
+                            <thead style="background-color: rgb(202, 199, 194); color: #121213;">
+                                <th class="text-center">CONCEPTO</th>
+                                <th class="text-center">FECHA</th>
+                                <th class="text-center">TIPO</th>
+                                <th class="text-center">CANTIDAD</th>
+                            </thead>
+                            <tbody>
+                                {% for item in registros2 %}
+                                <tr>
+                                    <td class="text-center" style="font-size: 20px;">{{ item.concepto|default_if_none:'-' }}</td>
+                                    <td class="text-center" style="font-size: 18px;">{{ item.fecha|default_if_none:'-' }}</td>
+                                    <td class="text-center" style="font-size: 18px;">{{ item.tipo|default_if_none:'-' }}</td>
+                                    <td class="text-center" style="font-size: 20px;">{{ item.cantidad|default_if_none:'-' }}</td>       
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            
+                <div class="col">
+                    <div class="border p-3">
+                        <table class="table table-hover table-striped table-bordered" id="tabla_renovaciones">
+                            <thead style="background-color: rgb(202, 199, 194); color: #121213;">
+                                <tr>
+                                    <th class="text-center">CRÉDITOS 20 DIAS</th>
+                                    <th class="text-center">CRÉDITOS 30 DIAS</th>
+                                    <th class="text-center">CRÉDITOS 60 DIAS</th>
+                                    <th class="text-center">RENOVACIONES 20 DIAS</th>
+                                    <th class="text-center">RENOVACIONES 30 DIAS</th>
+                                    <th class="text-center">RENOVACIONES 60 DIAS</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                               
+                                <tr>
+                                    <td class="text-center">{{ registros3.creditos_20_dias }}</td>
+                                    <td class="text-center">{{ registros3.creditos_30_dias }}</td>
+                                    <td class="text-center">{{ registros3.creditos_60_dias }}</td>
+                                    <td class="text-center">{{ registros3.renovacion_20_dias }}</td>
+                                    <td class="text-center">{{ registros3.renovacion_30_dias }}</td>
+                                    <td class="text-center">{{ registros3.renovacion_60_dias }}</td>
+                                    
+                                </tr>
+                                <tr>
+                                    <td class="text-center" colspan="3">Creditos: {{ registros3.total_creditos }}</td>
+                                    <td class="text-center" colspan="3">Renovaciones: {{ registros3.total_renovacion }}</td>
+                                </tr>
+                                
+                            </tbody>
+                        </table>
+                        
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+
+
+
     </div>
     <!-- /#page-content-wrapper -->
     </div>
@@ -170,6 +255,8 @@
             }
         });
     </script>
+
+    
    
 {% endblock %}
     
