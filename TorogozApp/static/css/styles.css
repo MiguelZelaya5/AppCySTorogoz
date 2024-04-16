@@ -41,7 +41,7 @@
   -moz-transition: margin 0.25s ease-out;
   -o-transition: margin 0.25s ease-out;
   transition: margin 0.25s ease-out;
-  background: linear-gradient(to top, #000000, #ffffff);
+  background: linear-gradient(to top, #ffffff, #459E0E);
 }
 
 #sidebar-wrapper .sidebar-heading {
