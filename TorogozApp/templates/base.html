@@ -37,7 +37,6 @@
         color: #000000; 
     }
 
-
     body {
             background: linear-gradient(to bottom,  #ffec9f, #ffffff);
             margin: 0;
@@ -134,7 +133,7 @@
             </div>
 
             <div class="text-center">
-                <h1 class="h1t p-3">Balance General</h1>
+                <h1 class="h1 p-3">Balance General</h1>
             </div>
             
             {%block contenido %} {% endblock %}
@@ -148,7 +147,7 @@
             <script>
                 function updateClock() {
                     const now = moment();
-                    const formattedTime = now.format('HH:mm:ss');
+                    const formattedTime = now.format('hh:mm:ss A');
                     document.getElementById('clock').textContent = formattedTime;
                 }
             
@@ -193,7 +192,7 @@
         
                 tipoMontoSelect.addEventListener("change", function () {
                     const selectedOption = tipoMontoSelect.options[tipoMontoSelect.selectedIndex].value;
-                    if (selectedOption !== "") {
+                    if (selectedOption !== "seleccion") {
                         // Si ya existe un input de monto, lo eliminamos
                         const existingMontoInput = document.getElementById("montoInput");
                         if (existingMontoInput) {
