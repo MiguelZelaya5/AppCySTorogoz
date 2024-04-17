@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block contenido %}
+
+<div class="col pb-5">
+    <h2 class="pb-3 fw-bold text-center" >Tabla Balance General</h2>
+    <div class="col">
+        
+        <div class="border p-3" style="overflow-x: auto;">
+            <div class="col-md-3">
+                <label for="mes">Seleccionar Mes:</label>
+                <select class="form-control" id="mes" name="mes">
+                    <option value="seleccion">Selecciona un mes: </option>
+                    <option value="1">Enero</option>
+                    <option value="2">Febrero</option>
+                    <option value="3">Marzo</option>
+                    <option value="4">Abril</option>
+                    <option value="5">Mayo</option>
+                    <option value="6">Junio</option>
+                    <option value="7">Julio</option>
+                    <option value="8">Agosto</option>
+                    <option value="9">Septiembre</option>
+                    <option value="10">Octubre</option>
+                    <option value="11">Noviembre</option>
+                    <option value="12">Diciembre</option>
+                    <!-- Agrega los demás meses según tu necesidad -->
+                </select>
+            </div>
+            <table class="table table-hover table-striped table-bordered" id="example">
+               
+                <thead style="background-color: #8be4e4; color: #121213;">
+                    
+                    <th style="width: 200px;">FECHA</th>
+                    <th class="text-center">TIPO</th>
+                    <th class="text-center">CONCEPTO</th>
+                    <th class="text-center">INVERSIÓN</th>
+                    <th class="text-center">INGRESOS A CAJA</th>
+                    <th class="text-center">PRESTAMO</th>
+                    <th class="text-center">COBROS</th>
+                    <th class="text-center">CRÉDITOS</th>
+                    <th class="text-center">RENOVACIONES</th>
+                    <th class="text-center">SALARIOS</th>
+                    <th class="text-center">PRESTAMOS TRABAJADORES</th>
+                    <th class="text-center">SALIDAS</th>
+                    <th class="text-center">TOTAL</th>
+                    <!--<th colspan="2" class="text-center">OPCIONES</th>-->
+                </thead>
+                <tbody>
+                    {% for item in registros %}
+                    <tr>
+                        
+                        <td class="text-center" style="font-size: 18px; width: 200px;" >{{ item.fecha|default_if_none:'-' }}</td>
+                        <td class="text-center" style="font-size: 20px;">{{ item.tipo|default_if_none:'-' }}</td>
+                        <td class="text-center" style="font-size: 20px;">{{ item.concepto|default_if_none:'-' }}</td>
+                        <td class="text-center" style="font-size: 20px;">{{ item.inversion|default_if_none:'-' }}</td>
+                        <td class="text-center" style="font-size: 20px;">{{ item.ingresos_a_caja|default_if_none:'-' }}</td>
+                        <td class="text-center" style="font-size: 20px;">{{ item.prestamo|default_if_none:'-' }}</td>
+                        <td class="text-center" style="font-size: 20px;">{{ item.cobros|default_if_none:'-' }}</td>
+                        <td class="text-center" style="font-size: 20px;">{{ item.creditos|default_if_none:'-' }}</td>
+                        <td class="text-center" style="font-size: 20px;">{{ item.renovaciones|default_if_none:'-' }}</td>
+                        <td class="text-center" style="font-size: 20px;">{{ item.salarios|default_if_none:'-' }}</td>
+                        <td class="text-center" style="font-size: 20px;">{{ item.prestamos_trabajadores|default_if_none:'-' }}</td>
+                        <td class="text-center" style="font-size: 20px;">{{ item.salidas|default_if_none:'-' }}</td>
+                        <td class="text-center" style="font-size: 20px;">${{ item.total|default_if_none:'-' }}</td>
+                        <!--<td style="font-size: 20px;" class="text-center"><a href="actualizarregistros/{{c.idregistrovehiculos}}" class="btn btn-primary btn-lg">Salida</a></td>
+                        <td style="font-size: 20px;" class="text-center"><a href="eliminarregistros/{{c.idregistrovehiculos}}" class="btn btn-danger btn-lg">Eliminar</a></td>-->
+                        
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+       
+        </div>
+    </div> 
+</div>
+{% endblock %}

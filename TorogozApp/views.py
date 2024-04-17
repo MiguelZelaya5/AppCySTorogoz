@@ -336,3 +336,22 @@ def sumaCreditoRenovacion(request):
         'total_renovacion': total_renovacion,
         
     }
+
+#Views de la pagehistorial 
+def pageHistorial(request):
+    return render(request, 'historial.html')
+
+def filtrarMestable(request):
+    with connection.cursor() as cursor:
+        cursor.execute("SELECT MONTH(CURDATE()) AS mes, YEAR(CURDATE()) AS año")
+        mes_año = cursor.fetchone()
+        if mes_año:
+            mes_actual = mes_año[0]
+            año_actual = mes_año[1]
+
+    # Obtener registros de TablaCreditos para el mes y año actual
+    registros_creditos = TablaCreditos.objects.filter(fecha__month=mes_actual, fecha__year=año_actual).order_by('fecha')#'-fecha'
+    registros_renovaciones = TablaRenovaciones.objects.filter(fecha__month=mes_actual, fecha__year=año_actual).order_by('fecha')#'-fecha'
+
+    registros_data2 = []
+    return 0
