@@ -31,7 +31,8 @@ urlpatterns = [
     path('homeTableM/', views.homeTableM, name='homeTableM'),
     path('tHistorial/', views.pageHistorial, name= 'tHistorial'),
     path('redirigir-a-admin/', views.redirigir_a_admin, name='redirigir_a_admin'),
-    path('salir/', views.salir, name="salir")
-    
+    path('salir/', views.salir, name="salir"),
+    path('tablabalanceGeneral/', views.tablabalancegeneral, name='tablabalanceGeneral'),
+    path('tablacreditos/', views.tablacreditosyrenovaciones, name='tablacreditos'),
    
 ]

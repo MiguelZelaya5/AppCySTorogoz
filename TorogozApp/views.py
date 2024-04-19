@@ -99,6 +99,22 @@ def home_view(request):
     # Renderiza la plantilla 'home.html' con los datos obtenidos de homeTableM
     return render(request, 'home.html', {'registros': registros_data, 'registros2': registros_data2, 'registros3': registros_data3,'mes': mes_actual, 'año': año_actual})
 
+def tablabalancegeneral(request):
+    registros_data, mes_actual, año_actual = homeTableM(request)
+    registros_data2, mes_actual, año_actual = homeTCreReno(request)
+    registros_data3 = sumaCreditoRenovacion(request)
+
+    # Renderiza la plantilla 'home.html' con los datos obtenidos de homeTableM
+    return render(request, 'tablabalance.html', {'registros': registros_data, 'registros2': registros_data2, 'registros3': registros_data3,'mes': mes_actual, 'año': año_actual})
+def tablacreditosyrenovaciones(request):
+    registros_data, mes_actual, año_actual = homeTableM(request)
+    registros_data2, mes_actual, año_actual = homeTCreReno(request)
+    registros_data3 = sumaCreditoRenovacion(request)
+
+    # Renderiza la plantilla 'home.html' con los datos obtenidos de homeTableM
+    return render(request, 'tablacreditos_renovaciones.html', {'registros': registros_data, 'registros2': registros_data2, 'registros3': registros_data3,'mes': mes_actual, 'año': año_actual})
+
+
 def registro_view(request):
     if request.user.is_authenticated:
         return redirect('/home') 

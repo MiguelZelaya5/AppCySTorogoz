@@ -60,7 +60,7 @@
                        
             <div class="list-group list-group-flush my-2">
                 <div class="">
-                    <a style="text-decoration: none;">
+                    <a href="{% url 'home' %}" style="text-decoration: none">
                         <button class="btn btn-secondary  list-group-item list-group-item-action bg-transparent" type="button" aria-expanded="false">
                             <i class="fas fa-project-diagram me-2"></i>Ingreso de datos
                         </button>
@@ -68,14 +68,14 @@
                 </div>
                 <!-- Dropdown 2 -->
                 <div class="">
-                    <a style="text-decoration: none">
+                    <a href="{% url 'tablabalanceGeneral' %}" style="text-decoration: none">
                         <button class="btn btn-secondary  list-group-item list-group-item-action bg-transparent" type="button"  aria-expanded="false">
                             <i class="fas fa-table me-2"></i>Tabla Balance General
                         </button>
                     </a>
                 </div> 
                 <div class="">
-                    <a style="text-decoration: none">
+                    <a href="{% url 'tablacreditos' %}" style="text-decoration: none">
                         <button class="btn btn-secondary  list-group-item list-group-item-action bg-transparent" type="button"  aria-expanded="false">
                             <i class="fas fa-table me-2"></i>Tabla Creditos y Renovaciones
                         </button>
@@ -134,6 +134,8 @@
                             </ul>
                         </li>
                     </ul>
+
+
                 </div>
             </nav>
             
@@ -142,7 +144,8 @@
             </div>
 
             <div class="text-center">
-                <h1 class="h1 p-3">Balance General</h1>
+                <h1 class="h1 p-3">{% block subtitulo %}Balance General{% endblock %}</h1>
+                
             </div>
             
             {%block contenido %} {% endblock %}
