@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="en">
     <head>
         <meta charset="UTF-8">
@@ -8,35 +9,45 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
         <title>Iniciar Sesion</title>
     </head>
+    
+<style>
+    body {
+        background-color: #77927a ;
+    }
+</style>
+
     <body>
         <main class="d-flex">
             <div class="container-fluid row m-0 vh-100 justify-content-center align-items-center">
-                <div class="card shadow w-50">
+                <div class="card shadow w-25">
                     <div>
                         <div class="card-body">
                             <form method="post">
-
+        
                                 {% csrf_token %}
-
-                                <h3 class="text-center">Torogoz</h3>
-                                <h5 class="text-center">login</h5>
-
-                                <label>Email</label>
-                                <input type="email;" class="form-control mb-3" name="username">
-
-                                <label>Contraseña</label>
-                                <input type="password" class="form-control mb-3" name="password">
-
-                                <button type="submit" class="btn btn-primary w-100">Acceder</button>
+        
+                                <div class="text-center">
+                                    <img src="{% static 'img/logoTorogoz.png' %}" alt="Logo" class="img-fluid" style="max-width: 250px;">
+                                </div>
+                                <label style="margin-left: 90px;">Email</label>
+                                <input type="email" class="form-control mb-3 mx-auto" name="username" style="width: 300px;">
+                                
+                                <label style="margin-left: 90px;">Contraseña</label>
+                                <input type="password" class="form-control mb-4 mx-auto" name="password" style="width: 300px;">                                
+                             
+                                <div class="d-flex justify-content-center mt-2"> <!-- Nuevo div para centrar el botón -->
+                                    <button type="submit" class="btn btn-primary" style="width: 125px;">Acceder</button>
+                                </div>
                             </form>
-                            <div class="mt-3">
-                                <p>¿No tienes una cuenta? <a href="{% url 'signup' %}" class="btn btn-success">Registrarse</a></p>
+                            <div class="mt-4 d-flex justify-content-end">
+                                 <a href="{% url 'signup' %}" class="btn btn-success">Registrarse</a>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </main>
+        
         <a href="">Cerrar Sesion</a>
     </body>
 </html>

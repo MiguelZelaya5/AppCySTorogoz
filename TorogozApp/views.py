@@ -30,6 +30,7 @@ def signup(request):
         form =UserCreationForm()
         return render(request, 'signup.html',{'form': form})
 
+@login_required
 def home(request):
     return render(request, 'home.html')
 
@@ -91,6 +92,7 @@ def logout_view(request):
     logout(request)
     return redirect('login')  # Redirige de nuevo a la página de inicio de sesión
 
+@login_required
 def home_view(request):
     registros_data, mes_actual, año_actual = homeTableM(request)
     registros_data2, mes_actual, año_actual = homeTCreReno(request)
@@ -99,6 +101,7 @@ def home_view(request):
     # Renderiza la plantilla 'home.html' con los datos obtenidos de homeTableM
     return render(request, 'home.html', {'registros': registros_data, 'registros2': registros_data2, 'registros3': registros_data3,'mes': mes_actual, 'año': año_actual})
 
+@login_required
 def tablabalancegeneral(request):
     registros_data, mes_actual, año_actual = homeTableM(request)
     registros_data2, mes_actual, año_actual = homeTCreReno(request)
@@ -106,6 +109,7 @@ def tablabalancegeneral(request):
 
     # Renderiza la plantilla 'home.html' con los datos obtenidos de homeTableM
     return render(request, 'tablabalance.html', {'registros': registros_data, 'registros2': registros_data2, 'registros3': registros_data3,'mes': mes_actual, 'año': año_actual})
+@login_required
 def tablacreditosyrenovaciones(request):
     registros_data, mes_actual, año_actual = homeTableM(request)
     registros_data2, mes_actual, año_actual = homeTCreReno(request)
@@ -148,6 +152,7 @@ def registro_view(request):
 from django.shortcuts import render, redirect
 from .models import SaldoTotal, TablaBalanceGeneral,TablaCreditos,TablaRenovaciones
 
+@login_required
 def insertar_datos(request):
     if request.method == 'POST':
         fecha = request.POST.get('fecha')
@@ -159,7 +164,7 @@ def insertar_datos(request):
         saldo_total_obj = SaldoTotal.objects.first()
         saldo_total = saldo_total_obj.saldo_totalcol
 
-        if tipo_monto in ['inversion', 'ingresos a caja', 'prestamo', 'cobros']:
+        if tipo_monto in ['inversion', 'ingresos_a_caja', 'prestamo', 'cobros']:
             saldo_total += monto
         elif tipo_monto in ['creditos', 'renovaciones', 'salarios', 'prestamos_trabajadores', 'salidas']:
             saldo_total -= monto
@@ -172,7 +177,7 @@ def insertar_datos(request):
         )
         
 
-        if tipo_monto in ['inversion', 'ingresos a caja', 'prestamo', 'cobros', 'creditos', 'renovaciones', 'salarios', 'prestamos_trabajadores', 'salidas']:
+        if tipo_monto in ['inversion', 'ingresos_a_caja', 'prestamo', 'cobros', 'creditos', 'renovaciones', 'salarios', 'prestamos_trabajadores', 'salidas']:
             setattr(nuevo_registro, tipo_monto, monto)
 
         try:
@@ -258,6 +263,7 @@ def homeTableM(request):
 
     return registros_data, mes_actual, año_actual
 
+@login_required
 def mostrarXMesyAño(request):
     # Inicializar mes y año
     mes = None
@@ -354,6 +360,7 @@ def sumaCreditoRenovacion(request):
     }
 
 #Views de la pagehistorial 
+@login_required
 def pageHistorial(request):
     return render(request, 'historial.html')
 
