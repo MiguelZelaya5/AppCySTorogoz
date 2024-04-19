@@ -37,7 +37,6 @@
         color: #000000; 
     }
 
-
     body {
             background: linear-gradient(to bottom,  #ffec9f, #ffffff);
             margin: 0;
@@ -59,23 +58,37 @@
 
             </div>
                        
-            <div class="list-group list-group-flush my-3">
+            <div class="list-group list-group-flush my-2">
                 <div class="">
                     <a style="text-decoration: none;">
-                        <button class="btn btn-secondary  list-group-item list-group-item-action bg-transparent" type="button"  aria-expanded="false">
-                            <i class="fas fa-tachometer-alt me-2"></i>Entrada
+                        <button class="btn btn-secondary  list-group-item list-group-item-action bg-transparent" type="button" aria-expanded="false">
+                            <i class="fas fa-project-diagram me-2"></i>Ingreso de datos
                         </button>
                     </a>
-                  </div>
+                </div>
                 <!-- Dropdown 2 -->
                 <div class="">
                     <a style="text-decoration: none">
                         <button class="btn btn-secondary  list-group-item list-group-item-action bg-transparent" type="button"  aria-expanded="false">
-                            <i class="fas fa-project-diagram me-2"></i>Salida
+                            <i class="fas fa-table me-2"></i>Tabla Balance General
                         </button>
                     </a>
-                  </div> 
-
+                </div> 
+                <div class="">
+                    <a style="text-decoration: none">
+                        <button class="btn btn-secondary  list-group-item list-group-item-action bg-transparent" type="button"  aria-expanded="false">
+                            <i class="fas fa-table me-2"></i>Tabla Creditos y Renovaciones
+                        </button>
+                    </a>
+                </div> 
+                <div class="">
+                    <a style="text-decoration: none">
+                        <button class="btn btn-secondary  list-group-item list-group-item-action bg-transparent" type="button"  aria-expanded="false">
+                            <i class="fas fa-table me-2"></i>Tabla de Cobros
+                        </button>
+                    </a>
+                </div> 
+            
                 <!-- Dropdown 3 -->
                 <div class="">
                     <a style="text-decoration: none">
@@ -91,13 +104,6 @@
                         </button>
                     </a>
                 </div>
-
-                <a class="list-group-item list-group-item-action bg-transparent ">
-                    <div class="d-flex align-items-center">
-                        <i class="fas fa-power-off me-2"></i>
-                        <span>Cerrar Sesión</span>
-                    </div>
-                </a>                
             </div>
         </div>
 
@@ -121,6 +127,8 @@
                                 <i class="fas fa-user me-2"></i>Usuario
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="{% url 'redirigir_a_admin' %}" target="_blank">Admin</a></li>
+                                <li><a class="dropdown-item" href="{% url 'salir' %}">Cerrar Sesion</a></li>
                                 <li><a class="dropdown-item"  target="_blank">Admin</a></li>
                                 <li><a class="dropdown-item" href="{% url 'signout' %}">Cerrar Sesion</a></li>
                             </ul>
@@ -130,11 +138,11 @@
             </nav>
             
             <div class="titulo text-center">
-                <h1 class="p-4">Creditos & Servicios Torogoz</h1>
+                <h1 class="p-4">Creditos y Servicios Torogoz</h1>
             </div>
 
             <div class="text-center">
-                <h1 class="h1t p-3">Balance General</h1>
+                <h1 class="h1 p-3">Balance General</h1>
             </div>
             
             {%block contenido %} {% endblock %}
@@ -148,7 +156,7 @@
             <script>
                 function updateClock() {
                     const now = moment();
-                    const formattedTime = now.format('HH:mm:ss');
+                    const formattedTime = now.format('hh:mm:ss A');
                     document.getElementById('clock').textContent = formattedTime;
                 }
             
@@ -193,7 +201,7 @@
         
                 tipoMontoSelect.addEventListener("change", function () {
                     const selectedOption = tipoMontoSelect.options[tipoMontoSelect.selectedIndex].value;
-                    if (selectedOption !== "") {
+                    if (selectedOption !== "seleccion") {
                         // Si ya existe un input de monto, lo eliminamos
                         const existingMontoInput = document.getElementById("montoInput");
                         if (existingMontoInput) {

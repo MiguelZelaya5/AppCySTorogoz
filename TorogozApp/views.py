@@ -8,7 +8,7 @@ from django.db import connection
 from django.http import HttpResponseServerError
 from django.db import transaction
 from .models import TablaBalanceGeneral,TablaCreditos,TablaRenovaciones
-
+from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
@@ -156,7 +156,7 @@ def insertar_datos(request):
         )
         
 
-        if tipo_monto in ['inversion', 'ingresos a caja', 'prestamo', 'cobros', 'creditos', 'renovaciones', 'salarios', 'prestamos', 'salidas']:
+        if tipo_monto in ['inversion', 'ingresos a caja', 'prestamo', 'cobros', 'creditos', 'renovaciones', 'salarios', 'prestamos_trabajadores', 'salidas']:
             setattr(nuevo_registro, tipo_monto, monto)
 
         try:
@@ -166,7 +166,7 @@ def insertar_datos(request):
                 saldo_total_obj.save()
                 if tipo_monto == 'creditos':
 
-                    if tipo in ['CREDITO 20 DIAS', 'CREDITO 30 DIAS', 'CREDITO 60 DIAS']:
+                    if tipo in ['CREDITO 20 DIAS','CREDITOS 20 DIAS','CREDITO 20 DIA', 'CREDITO 30 DIAS','CREDITOS 30 DIAS','CREDITO 30 DIA', 'CREDITO 60 DIAS','CREDITOS 60 DIAS','CREDITO 60 DIA']:
                         #id_tabla_general1=obtenerultimoIDtablabalance()
                         #ultimo_id_creado = TablaBalanceGeneral.objects.latest('id_registro').id_registro
                         ultimo_registro_balance = TablaBalanceGeneral.objects.latest('id_registro')
@@ -337,6 +337,30 @@ def sumaCreditoRenovacion(request):
         
     }
 
-#Views de historial
-def tempHistorial(request):
+#Views de la pagehistorial 
+def pageHistorial(request):
     return render(request, 'historial.html')
+
+def filtrarMestable(request):
+    with connection.cursor() as cursor:
+        cursor.execute("SELECT MONTH(CURDATE()) AS mes, YEAR(CURDATE()) AS año")
+        mes_año = cursor.fetchone()
+        if mes_año:
+            mes_actual = mes_año[0]
+            año_actual = mes_año[1]
+
+    # Obtener registros de TablaCreditos para el mes y año actual
+    registros_creditos = TablaCreditos.objects.filter(fecha__month=mes_actual, fecha__year=año_actual).order_by('fecha')#'-fecha'
+    registros_renovaciones = TablaRenovaciones.objects.filter(fecha__month=mes_actual, fecha__year=año_actual).order_by('fecha')#'-fecha'
+
+    registros_data2 = []
+    return 0
+
+@login_required
+def redirigir_a_admin(request):
+    # Redirige al usuario a la página de administración
+    return redirect('admin:index')
+@login_required
+def salir(request):
+    logout(request)
+    return redirect('/')
