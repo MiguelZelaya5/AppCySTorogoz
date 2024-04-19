@@ -36,7 +36,7 @@
                                     <td class="text-center" style="font-size: 20px;">{{ item.concepto|default_if_none:'-' }}</td>
                                     <td class="text-center" style="font-size: 18px;">{{ item.fecha|default_if_none:'-' }}</td>
                                     <td class="text-center" style="font-size: 18px;">{{ item.tipo|default_if_none:'-' }}</td>
-                                    <td class="text-center" style="font-size: 20px;">{{ item.cantidad|default_if_none:'-' }}</td>       
+                                    <td class="text-center" style="font-size: 20px;">${{ item.cantidad|default_if_none:'-' }}</td>       
                                 </tr>
                                 {% endfor %}
                             </tbody>
@@ -60,17 +60,17 @@
                             <tbody>
                                
                                 <tr>
-                                    <td class="text-center">{{ registros3.creditos_20_dias }}</td>
-                                    <td class="text-center">{{ registros3.creditos_30_dias }}</td>
-                                    <td class="text-center">{{ registros3.creditos_60_dias }}</td>
-                                    <td class="text-center">{{ registros3.renovacion_20_dias }}</td>
-                                    <td class="text-center">{{ registros3.renovacion_30_dias }}</td>
-                                    <td class="text-center">{{ registros3.renovacion_60_dias }}</td>
+                                    <td class="text-center">${{ registros3.creditos_20_dias }}</td>
+                                    <td class="text-center">${{ registros3.creditos_30_dias }}</td>
+                                    <td class="text-center">${{ registros3.creditos_60_dias }}</td>
+                                    <td class="text-center">${{ registros3.renovacion_20_dias }}</td>
+                                    <td class="text-center">${{ registros3.renovacion_30_dias }}</td>
+                                    <td class="text-center">${{ registros3.renovacion_60_dias }}</td>
                                     
                                 </tr>
                                 <tr>
-                                    <td class="text-center" colspan="3">Creditos: {{ registros3.total_creditos }}</td>
-                                    <td class="text-center" colspan="3">Renovaciones: {{ registros3.total_renovacion }}</td>
+                                    <td class="text-center" colspan="3">Creditos: ${{ registros3.total_creditos }}</td>
+                                    <td class="text-center" colspan="3">Renovaciones: ${{ registros3.total_renovacion }}</td>
                                 </tr>
                                 
                             </tbody>

@@ -27,20 +27,20 @@
                                 {% csrf_token %}
         
                                 <div class="text-center">
-                                    <img src="{% static 'img/logoTorogoz.png' %}" alt="Logo" class="img-fluid" style="max-width: 250px;">
+                                    <img src="{% static 'img/logoTorogoz.png' %}" alt="Logo" class="img-fluid" style="max-width: 100%;">
                                 </div>
-                                <label style="margin-left: 90px;">Email</label>
-                                <input type="email" class="form-control mb-3 mx-auto" name="username" style="width: 300px;">
-                                
-                                <label style="margin-left: 90px;">Contraseña</label>
-                                <input type="password" class="form-control mb-4 mx-auto" name="password" style="width: 300px;">                                
-                             
-                                <div class="d-flex justify-content-center mt-2"> <!-- Nuevo div para centrar el botón -->
+                                <label>Email</label>
+                                <input type="email" class="form-control mb-3 mx-auto" name="username" style="width: 100%;">
+        
+                                <label>Contraseña</label>
+                                <input type="password" class="form-control mb-4 mx-auto" name="password" style="width: 100%;">
+        
+                                <div class="d-flex justify-content-center mt-2">
                                     <button type="submit" class="btn btn-primary" style="width: 125px;">Acceder</button>
                                 </div>
                             </form>
-                            <div class="mt-4 d-flex justify-content-end">
-                                 <a href="{% url 'signup' %}" class="btn btn-success">Registrarse</a>
+                            <div class="mt-4 d-flex justify-content-center">
+                                <a href="{% url 'signup' %}" class="btn btn-success">Registrarse</a>
                             </div>
                         </div>
                     </div>
