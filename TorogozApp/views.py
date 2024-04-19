@@ -336,3 +336,7 @@ def sumaCreditoRenovacion(request):
         'total_renovacion': total_renovacion,
         
     }
+
+#Views de historial
+def tempHistorial(request):
+    return render(request, 'historial.html')
