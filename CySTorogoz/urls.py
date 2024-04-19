@@ -29,5 +29,7 @@ urlpatterns = [
     path('logout/', views.logout_view, name='logout'),
     path('insertartablagenera/', views.insertar_datos, name='insertartablagenera'),
     path('homeTableM/', views.homeTableM, name='homeTableM'),
-    path('tHistorial/', views.pageHistorial, name= 'tHistorial')
+    path('tHistorial/', views.pageHistorial, name= 'tHistorial'),
+    path('redirigir-a-admin/', views.redirigir_a_admin, name='redirigir_a_admin'),
+    path('salir/', views.salir, name="salir")
 ]
