@@ -30,7 +30,7 @@ def signup(request):
         form =UserCreationForm()
         return render(request, 'signup.html',{'form': form})
 
-@login_required
+#@login_required
 def home(request):
     return render(request, 'home.html')
 
