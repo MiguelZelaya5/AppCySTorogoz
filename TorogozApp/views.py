@@ -10,7 +10,8 @@ from django.db import transaction
 from .models import TablaBalanceGeneral,TablaCreditos,TablaRenovaciones
 from django.contrib.auth.decorators import login_required
 
-
+#prueba
+#prueba3
 # Create your views here.
 def signup(request):
     if request.user.is_authenticated:
@@ -30,7 +31,7 @@ def signup(request):
         form =UserCreationForm()
         return render(request, 'signup.html',{'form': form})
 
-@login_required
+#@login_required
 def home(request):
     return render(request, 'home.html')
 

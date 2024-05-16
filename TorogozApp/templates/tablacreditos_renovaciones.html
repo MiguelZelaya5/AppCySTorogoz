@@ -14,9 +14,9 @@
                 </style>
                 
                 <div class="text-right d-flex align-items-center">
-                    <!--<input type="text" id="campo_busqueda" placeholder="CARNET/DUI:">
+                    <input type="text" id="campo_busqueda" placeholder="Ingrese el dato:">
                     <button class="btn btn-primary" id="boton_buscar">Buscar</button>
-                    <button class="btn btn-primary" id="mostrar_todos" style="display: none;">Mostrar Todos</button>-->
+                    <button class="btn btn-primary" id="mostrar_todos" style="display: none;">Mostrar Todos</button>
                 </div>
             </div>   
                      
@@ -83,4 +83,37 @@
         </div>
     </div>
 </div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    // Función para buscar y desplazarse a la parte de la página
+    function buscarYDesplazarse() {
+        var campoBusqueda = document.getElementById("campo_busqueda").value.toLowerCase();
+        var filas = document.querySelectorAll('tbody tr');
+        var encontrado = false;
+
+        filas.forEach(function (fila) {
+            if (fila.textContent.toLowerCase().includes(campoBusqueda)) {
+                fila.scrollIntoView({ behavior: "smooth" });
+                fila.classList.add("resaltado"); // Agrega una clase para resaltar toda la fila
+                encontrado = true;
+
+                // Elimina la clase de resaltado después de 3 segundos (3000 ms)
+                setTimeout(function () {
+                    fila.classList.remove("resaltado");
+                }, 3000);
+            }
+        });
+
+        if (!encontrado) {
+            alert("No se encontró el registro.");
+        }
+    }
+
+    document.getElementById("boton_buscar").addEventListener("click", buscarYDesplazarse);
+</script>
+<style>
+    .resaltado {
+        background-color: yellow; /* Cambia esto al estilo deseado para resaltar */
+    }
+</style>
 {% endblock %}
