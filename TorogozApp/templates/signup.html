@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -23,33 +24,50 @@
                 return false;
             }
 
+            if (password1 !== password2) {
+                alert('Las contraseñas no coinciden.');
+                return false;
+            }
+
             return true;
         }
     </script>
+    <style>
+        body {
+            background-color: #77927a;
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-6">
-                <h2 class="text-center mb-4">Registro</h2>
-                <form method="post" onsubmit="return validateForm()">
-                    {% csrf_token %}
-                    <div class="mb-3">
-                        <label for="username" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="username" name="username" required>
+    <main class="d-flex">
+        <div class="container-fluid row m-0 vh-100 justify-content-center align-items-center">
+            <div class="card shadow w-25">
+                <div class="card-body">
+                    <div class="text-center mb-4">
+                        <img src="{% static 'img/logoTorogoz.png' %}" alt="Logo" class="img-fluid" style="max-width: 60%;">
                     </div>
-                    <div class="mb-3">
-                        <label for="password1" class="form-label">Contraseña</label>
-                        <input type="password" class="form-control" id="password1" name="password1" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="password2" class="form-label">Confirmar Contraseña</label>
-                        <input type="password" class="form-control" id="password2" name="password2" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary w-100 mt-3">Registrarse</button>
-                </form>
+                    <h2 class="text-center mb-4">Registro</h2>
+                    <form method="post" onsubmit="return validateForm()">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="username" name="username" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password1" class="form-label">Contraseña</label>
+                            <input type="password" class="form-control" id="password1" name="password1" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password2" class="form-label">Confirmar Contraseña</label>
+                            <input type="password" class="form-control" id="password2" name="password2" required>
+                        </div>
+                        <div class="d-flex justify-content-center mt-4 mb-3">
+                            <button type="submit" class="btn btn-primary" style="width: 115px;">Registrarse</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
+    </main>
 </body>
 </html>

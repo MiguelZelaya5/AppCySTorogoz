@@ -238,7 +238,7 @@ def homeTableM(request):
             año_actual = mes_año[1]
 
     # Obtener registros de TablaBalanceGeneral para el mes y año actual
-    registros = TablaBalanceGeneral.objects.filter(fecha__month=mes_actual, fecha__year=año_actual).order_by('fecha')
+    registros = TablaBalanceGeneral.objects.filter(fecha__month=mes_actual, fecha__year=año_actual).order_by('id_registro')
     registros_data = []
 
     for registro in registros:
