@@ -32,6 +32,18 @@ def signup(request):
         form =UserCreationForm()
         return render(request, 'signup.html',{'form': form})
 
+@login_required
+def tablarutas(request):
+    tablarutas = obtener_tablarutas()
+    tablarutas1=TablaRutas.objects.all()
+    return render(request, 'tablarutas.html', {'tablarutas': tablarutas1})
+
+def obtener_tablarutas():
+    with connection.cursor() as cursor:
+        cursor.execute("SELECT * FROM torogozapp_tablarutas where id_tabla_rutas=1")
+        obtener_ruta = cursor.fetchone()  # Ejecuta fetchall dentro del bloque 'with'
+    return obtener_ruta
+
 #@login_required
 def home(request):
     return render(request, 'home.html')
@@ -152,7 +164,7 @@ def registro_view(request):
 
     return render(request, 'signup.html', {'form': form})
 from django.shortcuts import render, redirect
-from .models import SaldoTotal, TablaBalanceGeneral,TablaCreditos,TablaRenovaciones
+from .models import SaldoTotal, TablaBalanceGeneral,TablaCreditos,TablaRenovaciones,TablaRutas
 
 @login_required
 def insertar_datos(request):
@@ -212,6 +224,15 @@ def insertar_datos(request):
                         cantidad=monto
                         )
                         nuevorenovacion.save()
+                
+                if 'RUTA' in concepto:
+                    nuevo_registro_ruta = TablaRutas(
+                        fecha=fecha,
+                        tipo_ruta=concepto,
+                        cantidad=monto
+                    )
+                    nuevo_registro_ruta.save()
+
 
             return redirect('home')  
         except Exception as e:
