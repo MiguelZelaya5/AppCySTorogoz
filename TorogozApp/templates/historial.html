@@ -5,27 +5,35 @@
 <div class="col pb-5">
     <h2 class="pb-3 fw-bold text-center" >Tabla Balance General</h2>
     <div class="col">
-        
-        <div class="border p-3" style="overflow-x: auto;">
+        <form method="GET" action="{% url 'filtrar_por_mes' %}">
             <div class="col-md-3">
-                <label for="mes">Seleccionar Mes:</label>
-                <select class="form-control" id="mes" name="mes">
-                    <option value="seleccion">Selecciona un mes: </option>
-                    <option value="1">Enero</option>
-                    <option value="2">Febrero</option>
-                    <option value="3">Marzo</option>
-                    <option value="4">Abril</option>
-                    <option value="5">Mayo</option>
-                    <option value="6">Junio</option>
-                    <option value="7">Julio</option>
-                    <option value="8">Agosto</option>
-                    <option value="9">Septiembre</option>
-                    <option value="10">Octubre</option>
-                    <option value="11">Noviembre</option>
-                    <option value="12">Diciembre</option>
-                    <!-- Agrega los demás meses según tu necesidad -->
-                </select>
+            <label for="mes">Seleccionar Mes:</label>
+            <select class="form-control" id="mes" name="mes">
+            <option value="seleccion">Selecciona un mes:</option>
+            <option value="1" {% if mes_actual == 1 %} selected {% endif %}>Enero</option>
+            <option value="2" {% if mes_actual == 2 %} selected {% endif %}>Febrero</option>
+            <option value="3" {% if mes_actual == 3 %} selected {% endif %}>Marzo</option>
+            <option value="4" {% if mes_actual == 4 %} selected {% endif %}>Abril</option>
+            <option value="5" {% if mes_actual == 5 %} selected {% endif %}>Mayo</option>
+            <option value="6" {% if mes_actual == 6 %} selected {% endif %}>Junio</option>
+            <option value="7" {% if mes_actual == 7 %} selected {% endif %}>Julio</option>
+            <option value="8" {% if mes_actual == 8 %} selected {% endif %}>Agosto</option>
+            <option value="9" {% if mes_actual == 9 %} selected {% endif %}>Septiembre</option>
+            <option value="10" {% if mes_actual == 10 %} selected {% endif %}>Octubre</option>
+            <option value="11" {% if mes_actual == 11 %} selected {% endif %}>Noviembre</option>
+            <option value="12" {% if mes_actual == 12 %} selected {% endif %}>Diciembre</option>
+           
+        </select>
+
+        <label for="año">Año:</label>
+        <input type="number" id="año" name="año" min="1982" max="2099" step="1" value="{{ año_actual }}" />
+        <!-- Aquí añadí el valor predeterminado como el año actual -->
+        <label for="mes">Mes:</label>
+        <button type="submit" class="btn btn-primary mt-3">Capturar Mes</button>
+
             </div>
+       
+       
             <table class="table table-hover table-striped table-bordered" id="example">
                
                 <thead style="background-color: #8be4e4; color: #121213;">
@@ -69,6 +77,10 @@
                     {% endfor %}
                 </tbody>
             </table>
+
+            
+        </form>
+            
        
         </div>
     </div> 

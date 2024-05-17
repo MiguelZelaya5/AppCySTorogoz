@@ -34,5 +34,7 @@ urlpatterns = [
     path('salir/', views.salir, name="salir"),
     path('tablabalanceGeneral/', views.tablabalancegeneral, name='tablabalanceGeneral'),
     path('tablacreditos/', views.tablacreditosyrenovaciones, name='tablacreditos'),
+    path('filtrar_por_mes/', views.filtrar_por_mes, name='filtrar_por_mes'),
+
    
 ]

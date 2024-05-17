@@ -9,6 +9,7 @@ from django.http import HttpResponseServerError
 from django.db import transaction
 from .models import TablaBalanceGeneral,TablaCreditos,TablaRenovaciones
 from django.contrib.auth.decorators import login_required
+from datetime import datetime
 
 #prueba
 #prueba3
@@ -388,3 +389,37 @@ def redirigir_a_admin(request):
 def salir(request):
     logout(request)
     return redirect('/')
+
+#---------------------------------------------------------------------------#
+#historial
+def filtrar_por_mes(request):
+    
+    año_actual = datetime.now().year
+    mes_actual = datetime.now().month
+
+    
+    with connection.cursor() as cursor:
+        cursor.execute("SELECT YEAR(CURDATE()) AS año")
+        año_actual_bd = cursor.fetchone()[0]
+
+   
+    if año_actual_bd:
+        año_actual = año_actual_bd
+
+    if request.method == 'GET':
+        mes_seleccionado = request.GET.get('mes')
+        año_seleccionado = request.GET.get('año', año_actual)
+
+       
+        if mes_seleccionado and mes_seleccionado != 'seleccion':
+            try:
+                mes_seleccionado = int(mes_seleccionado)
+                registros_filtrados = TablaBalanceGeneral.objects.filter(fecha__month=mes_seleccionado, fecha__year=año_seleccionado)
+                return render(request, 'historial.html', {'registros': registros_filtrados, 'año_actual': año_actual})
+            except ValueError:
+                
+                pass
+
+    registros_todos = TablaBalanceGeneral.objects.filter(fecha__year=año_actual, fecha__month=datetime.now().month)
+    return render(request, 'historial.html', {'registros': registros_todos, 'año_actual': año_actual})
+
