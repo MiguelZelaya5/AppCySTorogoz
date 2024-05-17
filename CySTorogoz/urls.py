@@ -35,6 +35,6 @@ urlpatterns = [
     path('tablabalanceGeneral/', views.tablabalancegeneral, name='tablabalanceGeneral'),
     path('tablacreditos/', views.tablacreditosyrenovaciones, name='tablacreditos'),
     path('filtrar_por_mes/', views.filtrar_por_mes, name='filtrar_por_mes'),
-
+    path('tablarutas/', views.tablarutas, name='tablarutas')
    
 ]

@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+{% block subtitulo %}TABLA COBROS{% endblock %}
+{% block contenido %}
+<div class="container-fluid">
+    <div class="d-flex justify-content-end pb-3">
+        <style>
+
+            #campo_busqueda {
+                margin-right: 10px; 
+            }
+        </style>
+        
+        <div class="text-right d-flex align-items-center">
+            <div>
+                <label for="fecha">Fecha:</label>
+                <input type="date" id="start" name="trip-start" value="2024-04-19" min="2018-01-01" max="2050-12-31" />
+            </div>
+            <input type="text" class="form-control" id="campo_busqueda" placeholder="Ingrese el dato:" name="fecha">
+            <button class="btn btn-primary" id="boton_buscar">Buscar</button>
+            <button class="btn btn-primary" id="mostrar_todos" style="display: none;">Mostrar Todos</button>
+        </div>
+    </div> 
+    <div class="row">            
+            <div class="col">
+                <div class="col pb-5">
+                    <div class="col">
+                        <div class="border p-3" style="overflow-x: auto;">
+                            
+                            <table class="table table-hover table-striped table-bordered" id="example">
+                               
+                                <thead style="background-color: #8be4e4; color: #121213;">
+                                    
+                                    <th style="width: 200px;">FECHA</th>
+                                    <th class="text-center">TIPO</th>
+                                    <th class="text-center">CONCEPTO</th>
+                                    <!--<th colspan="2" class="text-center">OPCIONES</th>-->
+                                </thead>
+                                <tbody>
+                                    {% for item in tablarutas %}
+                                    <tr>
+                                        <td class="text-center" style="font-size: 18px; width: 200px;">{{ item.fecha}}</td>
+                                        <td class="text-center" style="font-size: 20px;">{{ item.tipo_ruta}}</td>
+                                        <td class="text-center" style="font-size: 20px;">{{ item.cantidad}}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                       
+                        </div>
+                    </div> 
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+   function buscarYDesplazarse() {
+        var campoBusqueda = document.getElementById("campo_busqueda").value.toLowerCase();
+        var filas = document.querySelectorAll('tbody tr');
+        var encontrado = false;
+
+        filas.forEach(function (fila) {
+            if (fila.textContent.toLowerCase().includes(campoBusqueda)) {
+                fila.scrollIntoView({ behavior: "smooth" });
+                fila.classList.add("resaltado"); // Agrega una clase para resaltar toda la fila
+                encontrado = true;
+
+                // Elimina la clase de resaltado después de 3 segundos (3000 ms)
+                setTimeout(function () {
+                    fila.classList.remove("resaltado");
+                }, 3000);
+            }
+        });
+
+        if (!encontrado) {
+            alert("No se encontró el registro.");
+        }
+    }
+
+    document.getElementById("boton_buscar").addEventListener("click", buscarYDesplazarse);
+
+</script>
+<script>
+   document.addEventListener("DOMContentLoaded", function () {
+    const fechaInput = document.getElementById("start");
+    const nombreInput = document.getElementById("campo_busqueda");
+
+    fechaInput.addEventListener("change", function () {
+        const selectedDate = new Date(fechaInput.value);
+        selectedDate.setDate(selectedDate.getDate() + 1); // Sumar un día a la fecha seleccionada
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        const formattedDate = selectedDate.toLocaleDateString('es-ES', options);
+        nombreInput.value = formattedDate;
+    });
+});
+</script>
+<style>
+    .resaltado {
+        background-color: yellow; /* Cambia esto al estilo deseado para resaltar */
+    }
+</style>
+{% endblock %}
