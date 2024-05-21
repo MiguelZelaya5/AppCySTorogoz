@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block subtitulo %}TABLA BALANCE GENERAL{% endblock %}
+{% block subtitulo %}TABLA COBROS{% endblock %}
 {% block contenido %}
 <div class="container-fluid">
     <div class="d-flex justify-content-end pb-3">
@@ -38,34 +38,14 @@
                                     <th style="width: 200px;">FECHA</th>
                                     <th class="text-center">TIPO</th>
                                     <th class="text-center">CONCEPTO</th>
-                                    <th class="text-center">INVERSIÓN</th>
-                                    <th class="text-center">INGRESOS A CAJA</th>
-                                    <th class="text-center">PRESTAMO</th>
-                                    <th class="text-center">COBROS</th>
-                                    <th class="text-center">CRÉDITOS</th>
-                                    <th class="text-center">RENOVACIONES</th>
-                                    <th class="text-center">SALARIOS</th>
-                                    <th class="text-center">PRESTAMOS TRABAJADORES</th>
-                                    <th class="text-center">SALIDAS</th>
-                                    <th class="text-center">TOTAL</th>
                                     <!--<th colspan="2" class="text-center">OPCIONES</th>-->
                                 </thead>
                                 <tbody>
-                                    {% for item in registros %}
+                                    {% for item in tablarutas %}
                                     <tr>
-                                        <td class="text-center" style="font-size: 18px; width: 200px;">{{ item.fecha|default:'-' }}</td>
-                                        <td class="text-center" style="font-size: 20px;">{{ item.tipo|default:'-' }}</td>
-                                        <td class="text-center" style="font-size: 20px;">{{ item.concepto|default:'-' }}</td>
-                                        <td class="text-center" style="font-size: 20px;">{% if item.inversion %}${{ item.inversion }}{% else %}-{% endif %}</td>
-                                        <td class="text-center" style="font-size: 20px;">{% if item.ingresos_a_caja %}${{ item.ingresos_a_caja }}{% else %}-{% endif %}</td>
-                                        <td class="text-center" style="font-size: 20px;">{% if item.prestamo %}${{ item.prestamo }}{% else %}-{% endif %}</td>
-                                        <td class="text-center" style="font-size: 20px;">{% if item.cobros %}${{ item.cobros }}{% else %}-{% endif %}</td>
-                                        <td class="text-center" style="font-size: 20px;">{% if item.creditos %}${{ item.creditos }}{% else %}-{% endif %}</td>
-                                        <td class="text-center" style="font-size: 20px;">{% if item.renovaciones %}${{ item.renovaciones }}{% else %}-{% endif %}</td>
-                                        <td class="text-center" style="font-size: 20px;">{% if item.salarios %}${{ item.salarios }}{% else %}-{% endif %}</td>
-                                        <td class="text-center" style="font-size: 20px;">{% if item.prestamos_trabajadores %}${{ item.prestamos_trabajadores }}{% else %}-{% endif %}</td>
-                                        <td class="text-center" style="font-size: 20px;">{% if item.salidas %}${{ item.salidas }}{% else %}-{% endif %}</td>
-                                        <td class="text-center" style="font-size: 20px;">${{ item.total|default:'-' }}</td>
+                                        <td class="text-center" style="font-size: 18px; width: 200px;">{{ item.fecha}}</td>
+                                        <td class="text-center" style="font-size: 20px;">{{ item.tipo_ruta}}</td>
+                                        <td class="text-center" style="font-size: 20px;">{{ item.cantidad}}</td>
                                     </tr>
                                     {% endfor %}
                                 </tbody>

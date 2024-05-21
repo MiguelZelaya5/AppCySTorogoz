@@ -49,7 +49,6 @@ class TablaRenovaciones(models.Model):
 class TablaRutas(models.Model):
     id_tabla_rutas = models.AutoField(primary_key=True)
     fecha = models.DateField(null=True)
-    nombre_trabajador = models.CharField(max_length=45, null=True)
     tipo_ruta = models.CharField(max_length=45, null=True)
     cantidad = models.FloatField(null=True)
 
