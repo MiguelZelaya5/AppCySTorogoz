@@ -436,11 +436,14 @@ def filtrar_por_mes(request):
             try:
                 mes_seleccionado = int(mes_seleccionado)
                 registros_filtrados = TablaBalanceGeneral.objects.filter(fecha__month=mes_seleccionado, fecha__year=año_seleccionado)
-                return render(request, 'historial.html', {'registros': registros_filtrados, 'año_actual': año_actual})
+                return render(request, 'historial.html', {'registros': registros_filtrados, 'año_actual': año_actual,'mes_actual': mes_actual})
             except ValueError:
                 
                 pass
 
     registros_todos = TablaBalanceGeneral.objects.filter(fecha__year=año_actual, fecha__month=datetime.now().month)
-    return render(request, 'historial.html', {'registros': registros_todos, 'año_actual': año_actual})
+    return render(request, 'historial.html', {'registros': registros_todos, 'año_actual': año_actual,'mes_actual': mes_actual})
 
+def mesActual(request):
+    mes_actual = datetime.now().month
+    return render(request, 'historial.html', {'mes_actual': mes_actual})

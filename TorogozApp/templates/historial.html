@@ -19,8 +19,8 @@
                         }
                     </style>
                     
-                    <select class="form-control" id="mes" name="mes">
-                        <option value="seleccion"></option>
+                    <select class="form-control" id="mes" name="mes" aria-placeholder="Selecciona el mes" >
+                        <option value="seleccion">{{ mes_actual }}</option>
                         <option value="1" {% if mes_actual == 1 %} selected {% endif %}>Enero</option>
                         <option value="2" {% if mes_actual == 2 %} selected {% endif %}>Febrero</option>
                         <option value="3" {% if mes_actual == 3 %} selected {% endif %}>Marzo</option>
@@ -36,7 +36,7 @@
                     </select>                
                 
                     <label for="año">Año:</label>
-                    <input type="number" id="año" name="año" min="1982" max="2099" step="1" value="{{ año_actual }}" />
+                    <input type="number" id="año" name="año" min="2023" max="2099" step="1" value="{{ año_actual }}" />
                     <button type="submit" class="btn btn-primary move-right">Buscar</button>
                 </div>                
         
