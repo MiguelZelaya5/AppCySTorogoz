@@ -38,7 +38,6 @@ def tablarutas(request):
     return render(request, 'tablarutas.html', {'tablarutas': tablarutas1})
 
 @login_required
-#@login_required
 def home(request):
     return render(request, 'home.html')
 
@@ -100,6 +99,7 @@ def logout_view(request):
     logout(request)
     return redirect('login')  # Redirige de nuevo a la página de inicio de sesión
 
+@login_required
 def home_view(request):
     registros_data, mes_actual, año_actual = homeTableM(request)
     registros_data2, mes_actual, año_actual = homeTCreReno(request)
@@ -243,8 +243,7 @@ def obtenerultimoIDtablabalance():
         return idmaximo[0]
     else:
         return 0
-    
-@login_required
+@login_required    
 def homeTableM(request):
     with connection.cursor() as cursor:
         cursor.execute("SELECT MONTH(CURDATE()) AS mes, YEAR(CURDATE()) AS año")
