@@ -35,7 +35,8 @@ def signup(request):
 @login_required
 def tablarutas(request):
     tablarutas1=TablaRutas.objects.all()
-    return render(request, 'tablarutas.html', {'tablarutas': tablarutas1})
+    total_cantidad = TablaRutas.objects.aggregate(total=Sum('cantidad'))['total']
+    return render(request, 'tablarutas.html', {'tablarutas': tablarutas1, 'total_cantidad':total_cantidad})
 
 @login_required
 def home(request):
