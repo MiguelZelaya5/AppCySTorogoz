@@ -1,109 +1,97 @@
 from django.contrib import admin
-from import_export import resources
-from import_export.admin import ImportExportModelAdmin
-from import_export.formats.base_formats import CSV, XLS, JSON, YAML, HTML
 from django.http import HttpResponse
-from reportlab.lib.pagesizes import letter, landscape
 from reportlab.lib import colors
+from reportlab.lib.pagesizes import landscape, letter
+from reportlab.lib.styles import getSampleStyleSheet
+from reportlab.lib.units import inch
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
-from .models import SaldoTotal, TablaBalanceGeneral, TablaCreditos, TablaRenovaciones, TablaRutas
 
-# Recursos de importación/exportación
-class SaldoTotalResource(resources.ModelResource):
-    class Meta:
-        model = SaldoTotal
+from .models import TablaBalanceGeneral, TablaCreditos, TablaRenovaciones, TablaRutas
 
-class TablabalancegeneralResource(resources.ModelResource):
-    class Meta:
-        model = TablaBalanceGeneral
+# Función para exportar los datos a PDF
+def export_as_pdf(queryset, fields):
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename=Tabla.pdf'
 
-class TablaCreditosResource(resources.ModelResource):
-    class Meta:
-        model = TablaCreditos
+    doc = SimpleDocTemplate(response, pagesize=landscape(letter))
+    elements = []
 
-class TablaRenovacionesResource(resources.ModelResource):
-    class Meta:
-        model = TablaRenovaciones
+    # Excluir campos específicos para TablaCreditos y TablaRenovaciones
+    if 'id_tabla_general' in fields:
+        fields.remove('id_tabla_general')
 
-class TablaRutasResource(resources.ModelResource):
-    class Meta:
-        model = TablaRutas
+    data = [fields]
 
-# Clase personalizada para exportar datos a PDF
-class PDFExporter:
-    def export_data(self, queryset, model_name):
-        response = HttpResponse(content_type='application/pdf')
-        response['Content-Disposition'] = f'attachment; filename="{model_name}.pdf"'
-        
-        doc = SimpleDocTemplate(response, pagesize=landscape(letter))
-        elements = []
+    for obj in queryset:
+        data.append([str(getattr(obj, field)) for field in fields])
 
-        data = [[field.verbose_name for field in queryset.model._meta.fields]]
+    table = Table(data)
+    table.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
+        ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+        ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+        ('FONTSIZE', (0, 0), (-1, 0), 10),
+        ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+        ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
+        ('GRID', (0, 0), (-1, -1), 1, colors.black),
+    ]))
 
-        for obj in queryset:
-            row = [str(getattr(obj, field.name)) for field in queryset.model._meta.fields]
-            data.append(row)
+    elements.append(table)
+    doc.build(elements)
 
-        table = Table(data)
-        table.setStyle(TableStyle([
-            ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
-            ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
-            ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
-            ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
-            ('FONTSIZE', (0, 0), (-1, 0), 10),
-            ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
-            ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
-            ('GRID', (0, 0), (-1, -1), 1, colors.black),
-        ]))
+    return response
 
-        elements.append(table)
-        doc.build(elements)
-
-        return response
-
-# Clase base para admin con import/export y PDF
-class BaseAdmin(ImportExportModelAdmin, admin.ModelAdmin):
-    def export_as_pdf(self, request, queryset):
-        model_name = queryset.model._meta.verbose_name_plural.replace(' ', '_')
-        pdf_exporter = PDFExporter()
-        return pdf_exporter.export_data(queryset, model_name)
-
-    export_as_pdf.short_description = "Export Selected to PDF"
-    actions = [export_as_pdf]
-
-# Admin para SaldoTotal
-class SaldoTotalAdmin(BaseAdmin):
-    search_fields = ['saldo_totalcol']
-    list_display = ['id_saldo_total', 'saldo_totalcol']
-    resource_class = SaldoTotalResource
+# Administrador base para reutilizar campos y funciones comunes
+class BaseAdmin(admin.ModelAdmin):
+    actions = ['export_as_pdf']
 
 # Admin para TablaBalanceGeneral
 class TablaBalanceGeneralAdmin(BaseAdmin):
     search_fields = ['fecha', 'tipo', 'concepto']
-    list_display = ['fecha', 'tipo', 'concepto', 'inversion', 'ingresos_a_caja', 'prestamo', 'cobros', 
+    list_display = ['fecha', 'tipo', 'concepto', 'inversion', 'ingresos_a_caja', 'prestamo', 'cobros',
                     'creditos', 'renovaciones', 'salarios', 'prestamos_trabajadores', 'salidas', 'total']
-    resource_class = TablabalancegeneralResource
+
+    def export_as_pdf(self, request, queryset):
+        fields = [field.name for field in self.model._meta.fields]
+        return export_as_pdf(queryset, fields)
+
+    export_as_pdf.short_description = "Exportar a PDF"
 
 # Admin para TablaCreditos
 class TablaCreditosAdmin(BaseAdmin):
     search_fields = ['fecha', 'tipo_credito']
-    list_display = ['fecha', 'tipo_credito', 'cantidad', 'id_tabla_general']
-    resource_class = TablaCreditosResource
+    list_display = ['fecha', 'tipo_credito', 'cantidad']
+
+    def export_as_pdf(self, request, queryset):
+        fields = [field.name for field in self.model._meta.fields]
+        return export_as_pdf(queryset, fields)
+
+    export_as_pdf.short_description = "Exportar a PDF"
 
 # Admin para TablaRenovaciones
 class TablaRenovacionesAdmin(BaseAdmin):
     search_fields = ['fecha', 'tipo_renovacion']
-    list_display = ['fecha', 'tipo_renovacion', 'cantidad', 'id_tabla_general']
-    resource_class = TablaRenovacionesResource
+    list_display = ['fecha', 'tipo_renovacion', 'cantidad']
+
+    def export_as_pdf(self, request, queryset):
+        fields = [field.name for field in self.model._meta.fields]
+        return export_as_pdf(queryset, fields)
+
+    export_as_pdf.short_description = "Exportar a PDF"
 
 # Admin para TablaRutas
 class TablaRutasAdmin(BaseAdmin):
     search_fields = ['fecha', 'tipo_ruta']
     list_display = ['fecha', 'tipo_ruta', 'cantidad']
-    resource_class = TablaRutasResource
+
+    def export_as_pdf(self, request, queryset):
+        fields = [field.name for field in self.model._meta.fields]
+        return export_as_pdf(queryset, fields)
+
+    export_as_pdf.short_description = "Exportar a PDF"
 
 # Registrar los modelos y sus admins personalizados
-admin.site.register(SaldoTotal, SaldoTotalAdmin)
 admin.site.register(TablaBalanceGeneral, TablaBalanceGeneralAdmin)
 admin.site.register(TablaCreditos, TablaCreditosAdmin)
 admin.site.register(TablaRenovaciones, TablaRenovacionesAdmin)
