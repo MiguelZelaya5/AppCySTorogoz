@@ -43,25 +43,27 @@
                             <input type="date" id="start" name="trip-start" value="2024-04-8" min="2018-01-01" max="2050-12-31" />
                         </div>
                         <div class="pt-2">
-                            <input type="text" class="form-control" id="nombre1" placeholder="" name="fecha">
+                            <input type="text" class="form-control" id="nombre1" name="fecha">
                             <div id="fechaError" class="text-danger"></div>
                         </div>
                     </div>
-
+        
                     <div class="col-md-3">
                         <div><label for="tipo">Tipo:</label></div>
                         <div class="pt-2">
                             <input type="text" class="form-control" id="tipo" name="tipo">
+                            <div id="tipoError" class="text-danger"></div>
                         </div>
                     </div>
-
+        
                     <div class="col-md-3">
                         <div><label for="concepto">Concepto:</label></div>
                         <div class="pt-2">
                             <input type="text" class="form-control" id="concepto" name="concepto">
+                            <div id="conceptoError" class="text-danger"></div>
                         </div>
                     </div>
-
+        
                     <div class="col-md-3">
                         <div><label for="tipoMonto">Selecciona el tipo de monto:</label></div>
                         <div class="pt-2">
@@ -77,6 +79,7 @@
                                 <option value="prestamos_trabajadores">Prestamos Trabajadores</option>
                                 <option value="salidas">Salidas</option>
                             </select>
+                            <div id="tipoMontoError" class="text-danger"></div>
                         </div>
                     </div>
                 </div>
@@ -84,11 +87,12 @@
             <input type="hidden" id="fechaActual" name="fechaActual">
             <input type="hidden" id="horaActual" name="horaActual">
             <input type="hidden" id="montoHidden" name="montoHidden">
-
+        
             <div class="text-center mt-5 mb-5">
-                <button class="btn btn-color btn-secondary" style="background-color: #009600; color: #FFFFFF; border: 1px solid #009600;">Enviar</button>
+                <button type="button" class="btn btn-color btn-secondary" style="background-color: #009600; color: #FFFFFF; border: 1px solid #009600;" onclick="validateForm()">Enviar</button>
             </div>
         </form>
+        
     </div>
 </div>
 
@@ -278,7 +282,6 @@
 
 
     </div>
-    <!-- /#page-content-wrapper -->
     </div>
     <script>
         document.getElementById("myForm").addEventListener("submit", function(event) {
@@ -287,12 +290,58 @@
 
             if (matricula.trim() === "") {
                 matriculaError.textContent = "Por favor, ingrese carnet o dui.";
-                event.preventDefault(); // Evitar que el formulario se envíe si hay errores
+                event.preventDefault(); 
             } else {
-                matriculaError.textContent = ""; // Limpiar el mensaje de error si la matrícula es válida
+                matriculaError.textContent = ""; 
             }
         });
     </script>
+    <script>
+        function validateForm() {
+            var isValid = true;
+        
+            document.getElementById("fechaError").innerText = "";
+            document.getElementById("tipoError").innerText = "";
+            document.getElementById("conceptoError").innerText = "";
+            document.getElementById("tipoMontoError").innerText = "";
+        
+
+            var fecha = document.getElementById("nombre1").value.trim();
+            var tipo = document.getElementById("tipo").value.trim();
+            var concepto = document.getElementById("concepto").value.trim();
+            var tipoMonto = document.getElementById("tipoMonto").value;
+        
+
+            if (fecha === "") {
+                document.getElementById("fechaError").innerText = "El campo fecha es obligatorio.";
+                isValid = false;
+            }
+        
+
+            if (tipo === "") {
+                document.getElementById("tipoError").innerText = "El campo tipo es obligatorio.";
+                isValid = false;
+            }
+        
+
+            if (concepto === "") {
+                document.getElementById("conceptoError").innerText = "El campo concepto es obligatorio.";
+                isValid = false;
+            }
+        
+
+            if (tipoMonto === "seleccion") {
+                document.getElementById("tipoMontoError").innerText = "Debe seleccionar un tipo de monto.";
+                isValid = false;
+            }
+        
+            
+            if (isValid) {
+                document.getElementById("myForm").submit();
+            }
+        }
+        </script>
+        
 
     
    
