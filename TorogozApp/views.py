@@ -34,16 +34,9 @@ def signup(request):
 
 @login_required
 def tablarutas(request):
-    tablarutas = obtener_tablarutas()
     tablarutas1=TablaRutas.objects.all()
     return render(request, 'tablarutas.html', {'tablarutas': tablarutas1})
 
-@login_required
-def obtener_tablarutas():
-    with connection.cursor() as cursor:
-        cursor.execute("SELECT * FROM torogozapp_tablarutas where id_tabla_rutas=1")
-        obtener_ruta = cursor.fetchone()  # Ejecuta fetchall dentro del bloque 'with'
-    return obtener_ruta
 @login_required
 #@login_required
 def home(request):
