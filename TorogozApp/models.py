@@ -4,8 +4,8 @@ class SaldoTotal(models.Model):
     id_saldo_total = models.AutoField(primary_key=True)
     saldo_totalcol = models.FloatField()
 
-    def str(self):
-        return str(self.id_saldo_total)
+    def __str__(self):
+        return str(self.saldo_totalcol)
 
 class TablaBalanceGeneral(models.Model):
     id_registro = models.AutoField(primary_key=True)
@@ -23,8 +23,13 @@ class TablaBalanceGeneral(models.Model):
     salidas = models.FloatField(null=True)
     total = models.FloatField(null=True)
 
-    def str(self):
-        return str(self.id_registro)
+    def __str__(self):
+        # Create separate sections for better readability
+        seccion_1 = f"Fecha: {self.fecha}, Tipo: {self.tipo}"
+        seccion_2 = f"Total: {self.total}"  # Assuming total represents combined values
+
+        # Concatenate sections with line breaks for clarity
+        return "\n".join([seccion_1, seccion_2])
 
 class TablaCreditos(models.Model):
     id_creditos = models.AutoField(primary_key=True)
@@ -33,8 +38,13 @@ class TablaCreditos(models.Model):
     tipo_credito = models.CharField(max_length=45, null=True)
     cantidad = models.FloatField(null=True)
 
-    def str(self):
-        return str(self.id_creditos)
+    def __str__(self):
+        # Create separate sections for better readability
+        seccion_1 = f"Fecha: {self.fecha}, Tipo: {self.tipo_credito}"
+        seccion_2 = f"Total: {self.cantidad}"  # Assuming total represents combined values
+
+        # Concatenate sections with line breaks for clarity
+        return "\n".join([seccion_1, seccion_2])
 
 class TablaRenovaciones(models.Model):
     id_renovaciones = models.AutoField(primary_key=True)
@@ -43,8 +53,13 @@ class TablaRenovaciones(models.Model):
     tipo_renovacion = models.CharField(max_length=45, null=True)
     cantidad = models.IntegerField(null=True)
 
-    def str(self):
-        return str(self.id_renovaciones)
+    def __str__(self):
+        # Create separate sections for better readability
+        seccion_1 = f"Fecha: {self.fecha}, Tipo: {self.tipo_renovacion}"
+        seccion_2 = f"Total: {self.cantidad}"  # Assuming total represents combined values
+
+        # Concatenate sections with line breaks for clarity
+        return "\n".join([seccion_1, seccion_2])
 
 class TablaRutas(models.Model):
     id_tabla_rutas = models.AutoField(primary_key=True)
@@ -52,6 +67,11 @@ class TablaRutas(models.Model):
     tipo_ruta = models.CharField(max_length=45, null=True)
     cantidad = models.FloatField(null=True)
 
-    def str(self):
-        return str(self.id_tabla_rutas)
+    def __str__(self):
+        # Create separate sections for better readability
+        seccion_1 = f"Fecha: {self.fecha}, Tipo: {self.tipo_ruta}"
+        seccion_2 = f"Total: {self.cantidad}"  # Assuming total represents combined values
+
+        # Concatenate sections with line breaks for clarity
+        return "\n".join([seccion_1, seccion_2])
 

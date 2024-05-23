@@ -38,12 +38,13 @@ def tablarutas(request):
     tablarutas1=TablaRutas.objects.all()
     return render(request, 'tablarutas.html', {'tablarutas': tablarutas1})
 
+@login_required
 def obtener_tablarutas():
     with connection.cursor() as cursor:
         cursor.execute("SELECT * FROM torogozapp_tablarutas where id_tabla_rutas=1")
         obtener_ruta = cursor.fetchone()  # Ejecuta fetchall dentro del bloque 'with'
     return obtener_ruta
-
+@login_required
 #@login_required
 def home(request):
     return render(request, 'home.html')
@@ -60,7 +61,7 @@ def signin(request):
             user = authenticate(username=username, password=password)
             if user is not None:
                 login(request, user)  # Autenticar al usuario
-                return redirect('/profile')  # Redirigir al usuario a su perfil
+                return redirect('/home')  # Redirigir al usuario a su perfil
             else:
                 msg = 'Error: Nombre de usuario o contraseña incorrectos.'
                 return render(request, 'login.html', {'form': form, 'msg': msg})
@@ -69,17 +70,17 @@ def signin(request):
     
     return render(request, 'login.html', {'form': form})
 
-
+@login_required
 def profile(request):
     return render(request, 'profile.html')
-
+@login_required
 def signout(request):
     logout(request)
     return redirect('/')
 
 
 ## Desde aqui sirven las url
-
+@login_required
 def login_view(request):
     if request.user.is_authenticated:
         return redirect('/home')
@@ -101,12 +102,11 @@ def login_view(request):
     return render(request, 'login.html', {'form': form})
 
 
-
+@login_required
 def logout_view(request):
     logout(request)
     return redirect('login')  # Redirige de nuevo a la página de inicio de sesión
 
-@login_required
 def home_view(request):
     registros_data, mes_actual, año_actual = homeTableM(request)
     registros_data2, mes_actual, año_actual = homeTCreReno(request)
@@ -241,7 +241,7 @@ def insertar_datos(request):
 
     return render(request, 'home.html')
   
-
+@login_required
 def obtenerultimoIDtablabalance():
     with connection.cursor() as cursor:
         cursor.execute("select max(id_registro) from torogozapp_tablabalancegeneral limit 1;")           
@@ -251,7 +251,7 @@ def obtenerultimoIDtablabalance():
     else:
         return 0
     
-
+@login_required
 def homeTableM(request):
     with connection.cursor() as cursor:
         cursor.execute("SELECT MONTH(CURDATE()) AS mes, YEAR(CURDATE()) AS año")
@@ -302,7 +302,7 @@ def mostrarXMesyAño(request):
 
     return render(request, 'home.html', {'mes': mes, 'año': año})
 
-
+@login_required
 def homeTCreReno(request):
     with connection.cursor() as cursor:
         cursor.execute("SELECT MONTH(CURDATE()) AS mes, YEAR(CURDATE()) AS año")
@@ -336,7 +336,7 @@ def homeTCreReno(request):
 
 
     return registros_data2, mes_actual, año_actual
-
+@login_required
 def sumaCreditoRenovacion(request):
     with connection.cursor() as cursor:
         cursor.execute("SELECT MONTH(CURDATE()) AS mes, YEAR(CURDATE()) AS año")
@@ -386,7 +386,7 @@ def sumaCreditoRenovacion(request):
 @login_required
 def pageHistorial(request):
     return render(request, 'historial.html')
-
+@login_required
 def filtrarMestable(request):
     with connection.cursor() as cursor:
         cursor.execute("SELECT MONTH(CURDATE()) AS mes, YEAR(CURDATE()) AS año")
@@ -413,6 +413,7 @@ def salir(request):
 
 #---------------------------------------------------------------------------#
 #historial
+@login_required
 def filtrar_por_mes(request):
     
     año_actual = datetime.now().year

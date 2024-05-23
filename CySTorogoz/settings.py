@@ -82,7 +82,7 @@ DATABASES = {
         'USER': 'torogoz', 
         'PASSWORD': 'Torogoz123',  
         'HOST': '127.0.0.1',  
-        'PORT': '3306',  
+        'PORT': '3307',  
     }
 }
 
@@ -123,6 +123,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = 'static/'
+
+LOGIN_URL = '/signin'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'TorogozApp', 'static'),
     ]
