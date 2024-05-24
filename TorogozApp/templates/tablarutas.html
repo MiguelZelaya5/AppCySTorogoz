@@ -47,10 +47,11 @@
                                         <td class="text-center" style="font-size: 20px;">{{ item.tipo_ruta}}</td>
                                         <td class="text-center" style="font-size: 20px;">{{ item.cantidad}}</td>
                                     </tr>
+                                    
+                                    {% endfor %}
                                     <tr>
                                         <td class="text-center" colspan="3">Total: ${{ total_cantidad }}</td>
                                     </tr>
-                                    {% endfor %}
                                 </tbody>
                             </table>
                        
