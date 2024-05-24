@@ -5,8 +5,26 @@ from reportlab.lib.pagesizes import landscape, letter
 from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.lib.units import inch
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
+from import_export import resources
+from import_export.admin import ImportExportModelAdmin
 
-from .models import TablaBalanceGeneral, TablaCreditos, TablaRenovaciones, TablaRutas
+from .models import TablaBalanceGeneral, TablaCreditos, TablaRenovaciones, TablaRutas,SaldoTotal
+
+class TablaBalanceGeneralResource(resources.ModelResource):
+    class Meta:
+        model = TablaBalanceGeneral
+
+class TablaCreditosResource(resources.ModelResource):
+    class Meta:
+        model = TablaCreditos
+
+class TablaRenovacionesResource(resources.ModelResource):
+    class Meta:
+        model = TablaRenovaciones
+
+class TablaRutasResource(resources.ModelResource):
+    class Meta:
+        model = TablaRutas
 
 # Función para exportar los datos a PDF
 def export_as_pdf(queryset, fields):
@@ -43,11 +61,12 @@ def export_as_pdf(queryset, fields):
     return response
 
 # Administrador base para reutilizar campos y funciones comunes
-class BaseAdmin(admin.ModelAdmin):
+class BaseAdmin(ImportExportModelAdmin,admin.ModelAdmin):
     actions = ['export_as_pdf']
 
 # Admin para TablaBalanceGeneral
 class TablaBalanceGeneralAdmin(BaseAdmin):
+    resource_class = TablaBalanceGeneralResource
     search_fields = ['fecha', 'tipo', 'concepto']
     list_display = ['fecha', 'tipo', 'concepto', 'inversion', 'ingresos_a_caja', 'prestamo', 'cobros',
                     'creditos', 'renovaciones', 'salarios', 'prestamos_trabajadores', 'salidas', 'total']
@@ -60,6 +79,7 @@ class TablaBalanceGeneralAdmin(BaseAdmin):
 
 # Admin para TablaCreditos
 class TablaCreditosAdmin(BaseAdmin):
+    resource_class = TablaCreditosResource
     search_fields = ['fecha', 'tipo_credito']
     list_display = ['fecha', 'tipo_credito', 'cantidad']
 
@@ -71,6 +91,7 @@ class TablaCreditosAdmin(BaseAdmin):
 
 # Admin para TablaRenovaciones
 class TablaRenovacionesAdmin(BaseAdmin):
+    resource_class = TablaRenovacionesResource
     search_fields = ['fecha', 'tipo_renovacion']
     list_display = ['fecha', 'tipo_renovacion', 'cantidad']
 
@@ -82,6 +103,7 @@ class TablaRenovacionesAdmin(BaseAdmin):
 
 # Admin para TablaRutas
 class TablaRutasAdmin(BaseAdmin):
+    resource_class = TablaRutasResource
     search_fields = ['fecha', 'tipo_ruta']
     list_display = ['fecha', 'tipo_ruta', 'cantidad']
 
@@ -96,3 +118,4 @@ admin.site.register(TablaBalanceGeneral, TablaBalanceGeneralAdmin)
 admin.site.register(TablaCreditos, TablaCreditosAdmin)
 admin.site.register(TablaRenovaciones, TablaRenovacionesAdmin)
 admin.site.register(TablaRutas, TablaRutasAdmin)
+admin.site.register(SaldoTotal)
